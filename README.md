@@ -9,7 +9,7 @@ Icon [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-leve
 - `nticont.exe` is the translator.
 - `nticonx.exe` is the virtual machine, which normally is incorporated into the built executable.
   - In other words, `nticont.exe` builds an executable that runs without dependecies on any other files or shared libraries.
-- [`options_nticont.md`](./options_nt.md) describes the options that may be passed for `nticont` and the environment variables that may be set for running the translated program.
+- [`options_nticont.md`](./options_nticont.md) describes the options that may be passed for `nticont` and the environment variables that may be set for running the translated program.
   - This is drawn from [the reference page](https://cs.arizona.edu/icon/refernce/icontx.htm#icont) and [the v9.32 source code](https://cs.arizona.edu/icon/ftp/packages/unix/).
 - `examples\smoke_test.cmd` demonstrates use of the following files:
 - `icont.cmd` is a "convenience script" for invoking `nticont.exe`
