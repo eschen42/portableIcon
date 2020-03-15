@@ -1,11 +1,22 @@
 # Portable Icon 9.3.2
 
 ## Motivation
-Sometimes a small, single-file binary is what's needed for a simple task.  Frequently, Icon/Unicon can be an expressive and enjoyable way to write software to accomplish the task.  This repository provides is a portable collection of binary and library files for running Icon 9.3.2 for Windows (compiled February 20, 1999) that has been tested on Windows 10.  This produces binaries as small as 260kb that include the Icon Virtual Machine and are without external dependencies.
 
-Icon [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-level, general-purpose programming language that is in the public domain.  It runs on an efficient virtual machine.  There exists [a modern build of Icon for Windows (from 2015)](https://www2.cs.arizona.edu/icon/v95w.htm) for which source code is not presently available.  There is also an actively developed language extending Icon called Unicon that is preferred for general software development because it provides multithreading and better integration with networking, databases, messaging, file attributes, and the operating system: [http://unicon.org/](http://unicon.org/).
+Sometimes a small, single-file binary is what's needed for a simple task.  Frequently, Icon/Unicon can be an expressive and enjoyable way to write software to accomplish the task.
+- This repository provides is a portable collection of binary and library files for running Icon 9.3.2 for Windows (compiled February 20, 1999) that has been tested on Windows 10.
+ - Icon 9.3.2 for Windows produces binaries as small as 260kb that:
+   - include the Icon Virtual Machine, and
+   - are without external dependencies.
+- The repository also provides rudimentary support for writing scripts in Icon.
+
+### Background
+
+Icon [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-level, general-purpose programming language that is in the public domain.  It runs on an efficient virtual machine.  There exists [a modern build of Icon for Windows (from 2015)](https://www2.cs.arizona.edu/icon/v95w.htm) for which source code is not presently available.
+
+There is also an actively developed language extending Icon called Unicon that is preferred for general software development because it provides multithreading and better integration with networking, databases, messaging, file attributes, and the operating system: [http://unicon.org/](http://unicon.org/).  Unicon stand-alone binaries have a minimum size of about 5.5mb (20-fold higher than Icon).
 
 ## Files
+
 - `nticont.exe` is the translator.
 - `nticonx.exe` is the virtual machine, which normally is incorporated into the built executable.
   - In other words, `nticont.exe` builds an executable that runs without dependecies on any other files or shared libraries.
@@ -19,7 +30,7 @@ Icon [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-leve
   - Otherwise it passes all arguments through to `nticont.exe`.
     - See the second example in `smoke_test.cmd`.
   - Run `icont.cmd` without any arguments for a list of options.
-- `examples\example_stdin.cmd` is a simple if not silly example of how to translate and run Icon source, passing arguments.
+- `examples\example_stdin.cmd` is a simple if not silly example of how to translate and run Icon source code from a script file, passing arguments.
   - See the third example in `smoke_test.cmd`.
 
 ## Bugs
