@@ -1,39 +1,12 @@
 @set ERRORLEVEL=&setlocal&echo off
 set ARG1=&set ARG1=%1
-set ARG2=&set ARG2=%2
-set MYRESULT=87
 if not defined ARG1 goto :usage
-
-set MYSRCDIR=
-set MYBLDDIR="%~dp0"
-set MYNTICONT="%~dp0nticont.exe"
-set MYCD=%CD%
-
-if defined ARG2 (
+  pushd "%~dp0"
+  set MYNTICONT="%~dp0nticont.exe"
   if not defined IPATH set IPATH=%~dp0ipl
-  goto :translating_stdin
-)
-set MYSRCDIR="%~dp1"
-set MYSRCFILE="%~dpn1.icn"
-set MYOFILE="%~dpn1.exe"
-if not defined IPATH set IPATH=%~dp0ipl %~dp1
-
-pushd %MYSRCDIR%
-%MYNTICONT% -c %MYSRCFILE%
-set MYRESULT=%ERRORLEVEL%
-popd
-if %MYRESULT% neq 0 goto :usage
-
-:translating_stdin
-
-pushd %MYBLDDIR%
-if     defined MYOFILE %MYNTICONT% -u -o %MYOFILE% %MYSRCFILE%
-if not defined MYOFILE %MYNTICONT% %*
-set MYRESULT=%ERRORLEVEL%
-popd
-if %MYRESULT% neq 0 goto :usage
-
-exit /b 0
+  popd
+  %MYNTICONT% %*
+  exit /b %ERRORLEVEL%
 
 :usage
 
