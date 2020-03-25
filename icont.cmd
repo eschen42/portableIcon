@@ -2,6 +2,7 @@
 set ARG1=&set ARG1=%1
 if not defined ARG1 goto :usage
   pushd "%~dp0"
+  set PATH=%CD%;%PATH%
   set MYNTICONT="%~dp0nticont.exe"
   if not defined IPATH set IPATH=%~dp0ipl
   popd
