@@ -41,7 +41,7 @@ findstr /v "%SENTINEL%" example_stdin.cmd > world.icn
 echo -------  Test four  - Explicity run the Icon Virtual Machine ---------
 set PROMPT=running four -$G 
 @echo %ECHO_ON%
-call "%~dp0..\nticont.exe" -s -u "%~dp0world.icn"
+"%~dp0..\nticont.exe" -s -u "%~dp0world.icn"
 "%~dp0..\nticonx.exe" "%~dp0world.bat" one two three four
 @echo off
 
