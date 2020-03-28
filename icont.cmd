@@ -6,8 +6,8 @@ if not defined ARG1 goto :usage
   set MYNTICONT="%~dp0nticont.exe"
   if not defined IPATH set IPATH=%~dp0ipl
   popd
-  if not exist noop.bat echo exit /b 0 > noop.bat
   %MYNTICONT% %*
+  if %ERRORLEVEL% neq 0 if not exist noop.bat echo exit /b %%ERRORLEVEL%% > noop.bat
   exit /b %ERRORLEVEL%
 
 :usage
