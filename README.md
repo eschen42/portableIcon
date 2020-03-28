@@ -18,17 +18,19 @@ There is also an actively developed language extending Icon called Unicon that i
 ## Files
 
 - `nticont.exe` is the translator.
+  - When invoked without the `-o` argument, this produces a `.exe` with the same name as the `.icn` file, in the same directory.
 - `nticonx.exe` is the virtual machine, which normally is incorporated into the built executable.
   - In other words, `nticont.exe` builds an executable that runs without dependecies on any other files or shared libraries.
 - [`options_nticont.md`](./options_nticont.md) describes the options that may be passed for `nticont` and the environment variables that may be set for running the translated program.
   - This is drawn from [the reference page](https://cs.arizona.edu/icon/refernce/icontx.htm#icont) and [the v9.32 source code](https://cs.arizona.edu/icon/ftp/packages/unix/).
 - `examples\smoke_test.cmd` demonstrates use of the following files:
-- `icont.cmd` is a "convenience script" for invoking `nticont.exe`
-  - When invoked with a single argument (the path to a `.icn` source file), it produces a `.exe` with the same name in the same directory.
-    - This is the most common case, when you are simply compiling a single file.
-    - See the first example in `smoke_test.cmd`.
-  - Otherwise it passes all arguments through to `nticont.exe`.
-    - See the second example in `smoke_test.cmd`.
+- `icont.cmd` is a "convenience script" for invoking `nticont.exe` from a "portable directory":
+  - It passes all arguments through to `nticont.exe` *after* it:
+    - Ensures that the portable directory (which contains `nticont.exe` and `nticont.exe`) is in PATH.
+    - Ensures that IPATH points to the included IPL,
+      - This must have no spaces, but it is only used at translation time.
+    - Ensures that a `noop.bat` file exists in the current directory.
+      - Smoke tests 4, 5, and 6 demonstrate scenarios where this is necessary because the translator was invoked with the `-s` option.
   - Run `icont.cmd` without any arguments for a list of options.
 - `examples\example_stdin.cmd` is a simple if not silly example of how to translate and run Icon source code from a script file, passing arguments.
   - See the third example in `smoke_test.cmd`.
