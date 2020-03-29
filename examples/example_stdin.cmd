@@ -7,9 +7,9 @@
 # world.icn is the Icon program to be translated and run
 
 procedure main(args)
-  write(&progname)
   every write(!args)
-  write(&version)
   every write(&features)
+  write(&progname)
+  write(&version)
 end
 
