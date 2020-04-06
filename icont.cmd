@@ -5,7 +5,7 @@ if not defined ARG1 goto :usage
   pushd "%~dp0"
   if not defined ICONT_NOPATH set PATH=%CD%;%PATH%
   set MYNTICONT="%~dp0nticont.exe"
-  if not defined IPATH set IPATH=%ME_FIRST% %~dps0ipl
+  if not defined IPATH set IPATH=%ME_FIRST% %~dps0ipl\procs %~dps0ipl\gprocs
   popd
   %MYNTICONT% %*
   if %ERRORLEVEL% neq 0 if not exist noop.bat (
