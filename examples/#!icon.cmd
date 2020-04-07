@@ -1,1 +1,1 @@
-@cmd /c ^"set IPATH=%~dp0..\IPL^& type "%~dpnx1" ^| call "%~dp0\..\icont_nopath.cmd" -o "%~dp0%~n1" -u -v 0 - ^& if exist "%~dp0%~n1.bat" ( "%~dp0\..\nticonx.exe" "%~dp0%~n1.bat" %* ^& del "%~dp0%~n1.bat" ) else (echo translation FAILED) ^"
+@cmd /c ^"type "%~dpnx1" ^| call "%~dp0\..\icont_nopath.cmd" -o "%~dp1%~n1" -u -v 0 - ^& if exist "%~dp1%~n1.bat" ( "%~dp0\..\nticonx.exe" "%~dp1%~n1.bat" %* ^& del "%~dp1%~n1.bat" ) else (echo translation FAILED) ^"
