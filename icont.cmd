@@ -21,6 +21,9 @@ if not defined ARG1 goto :usage
   :: Unless IPATH has already been set, link files either in working
   ::   directory or in ipl\procs
   if not defined IPATH set IPATH=%ME_FIRST% %~dps0ipl\procs
+  :: Unless LPATH has already been set, set LPATH to taste
+  :: if not defined LPATH set LPATH=%~dps0ipl\progs %~dps0ipl\procs
+  if not defined LPATH set LPATH=%~dps0ipl\progs
   :: Return to working directory
   popd
   :: Pass all arguments to the translator
