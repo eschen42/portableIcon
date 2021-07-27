@@ -1,5 +1,5 @@
 @ set ERRORLEVEL=&setlocal&echo off
-@ set SENTINEL=NOT_ICON& set PROMPT=running -$G &set ECHO_ON=off
+@ set SENTINEL=NOT_ICON& set PROMPT=running -$G &set ECHO_ON=on
 
 :: Extract world.icn from example_stdin.cmd
 findstr /v "%SENTINEL%" example_stdin.cmd > world.icn
@@ -13,6 +13,7 @@ echo -------  Test one   - Translate with default options [1]  ---------
 set PROMPT=running one -$G
 @echo %ECHO_ON%
 call "%~dp0..\icont.cmd" "%~dp0world.icn"
+@echo %ECHO_ON%
 "%~dp0world.exe" one
 @echo off
 
@@ -22,6 +23,7 @@ echo -------  Test two   - Translate with custom options [2]  ---------
 set PROMPT=running two -$G
 @echo %ECHO_ON%
 call "%~dp0..\icont.cmd" -s -u -o "%~dp0world.exe" "%~dp0world.icn"
+@echo %ECHO_ON%
 "%~dp0world.exe" one two
 @echo off
 
@@ -42,6 +44,7 @@ echo -------  Test four  - Explicity run the Icon Virtual Machine [4]  ---------
 set PROMPT=running four -$G
 @echo %ECHO_ON%
 "%~dp0..\nticont.exe" -s -u "%~dp0world.icn"
+@echo %ECHO_ON%
 "%~dp0..\nticonx.exe" "%~dp0world.bat" one two three four
 @echo off
 
@@ -85,9 +88,12 @@ if exist "%~dp0world.bat" del "%~dp0world.bat"
 
 echo -------  Test eight  -  Shebang example [8]  ---------
 
-@echo off
+set PROMPT=running eight -$G
+
+@echo %ECHO_ON%
 :: the shebang line in this case is NOT emitted because echo is OFF
 call "%~dp0example_shebang.cmd" eight is enough
+@echo off
 
 echo -------  "Where there's smoke, there's fire." -Anonymous ---------
 endlocal

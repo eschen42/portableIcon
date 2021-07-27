@@ -77,7 +77,7 @@ This is not an ordinary batch file:
 - Unfortunately, there is not a command line option for icont to trigger this behavior when `nticonx.exe` *is* on your PATH.
   - You could circumvent this by keeping it off your PATH and:
     - either putting `nticonx.exe` elsewhere (not on your PATH).
-    - or by invoking `icont_nopath.cmd` instead of invoking `icont_nopath.cmd`
+    - or by invoking `icont_nopath.cmd` instead of invoking `icont.cmd`
       - Afterward, you will want to run `smudge_nopath.cmd` on the resulting batch file.
 
 If you don't "smudge" the batch file, then it will not run because:
