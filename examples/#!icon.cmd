@@ -1,1 +1,1 @@
-@cmd /c ^"type "%~dpnsx1" ^| call "%~dps0\..\icont.cmd" -I -o "%~dps1%~ns1.bat" -u -v 0 - ^& if exist "%~dps1%~ns1.bat" ( "%~dps0\..\nticonx.exe" "%~dps1%~ns1.bat" %* ^& del "%~dps1%~ns1.bat" ) else (echo translation FAILED) ^"
+@type %~dpnsx1| call %~dps0\..\icon.cmd - %* 

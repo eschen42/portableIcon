@@ -1,0 +1,181 @@
+-------  Here is the Icon program used for these examples ---------
+
+# world.icn is the Icon program to be translated and run
+
+procedure main(args)
+  every write(!args)
+  every write(&features)
+  # write(&progname)
+  write(&version)
+end
+
+
+-------  Test one   - Translate with default options [1]  ---------
+one
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test two   - Translate with custom options [2]  ---------
+one
+two
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test three - Translate from within a script and run [3]  ---------
+one
+two
+three
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test four  - Explicity run the Icon Virtual Machine [4]  ---------
+one
+two
+three
+four
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test five  - Implicity run the Icon Virtual Machine using CMD [5]  ---------
+one
+two
+three
+four
+five
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test six  - Implicity run the Icon Virtual Machine in the background using START [6]  ---------
+one
+two
+three
+four
+five
+six
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test seven  -  Do not include the Icon Virtual Machine in the output file [7]  ---------
+uno
+deux
+drei
+tessera
+cinque
+seis
+seven
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test eight  -  Shebang example [8]  ---------
+C:\Users\art\src\portable_icon_932\examples\example_shebang.cmd
+eight
+is
+enough
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+C:\Users\art\src\PORTAB~1\examples\-.bat
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  Test nine  -  icon invokes icont and iconx [9]  ---------
+nine
+with quoted path
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+nine
+without quoted path
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+nine with stdin
+MS Windows NT
+POSIX
+ASCII
+co-expressions
+environment variables
+external functions
+keyboard functions
+large integers
+system function
+Icon-2 Version 9.3.2.  February 20, 1999
+
+-------  "Where there's smoke, there's fire." -Anonymous ---------

@@ -24,6 +24,12 @@ There is also an actively developed language extending Icon called Unicon that i
 - [`options_nticont.md`](./options_nticont.md) describes the options that may be passed for `nticont` and the environment variables that may be set for running the translated program.
   - This is drawn from [the reference page](https://cs.arizona.edu/icon/refernce/icontx.htm#icont) and [the v9.32 source code](https://cs.arizona.edu/icon/ftp/packages/unix/).
 - [`examples\smoke_test.cmd`](./examples/smoke_test.cmd) demonstrates use of the following files:
+  - `icon.cmd` is a "convenience script" for compiling a `.icn` file and running it with the supplied arguments.
+    - No arguments may be passed to `icont.cmd`.
+    - usage: `icon [program.icn or -] [args]`
+    - It also avoids copying the virtual machine when translating and running an Icon script on-the-fly.
+    - "Shebang - scripting with Icon" makes use of this script.
+    - See smoke test 9 in `smoke_test.cmd`.
   - `icont.cmd` is a "convenience script" for invoking `nticont.exe` from a "portable directory":
     - It passes all arguments through to `nticont.exe` *after* it:
       - Ensures that the portable directory (which contains `nticont.exe` and `nticonx.exe`) is in PATH.
@@ -44,7 +50,7 @@ There is also an actively developed language extending Icon called Unicon that i
   - `examples\example_stdin.cmd` is a simple if not silly example of how to translate and run Icon source code from a script file, passing arguments.
     - See smoke test 3 in `smoke_test.cmd`.
     - See also "Shebang - scripting with Icon" for details.
-  - `examples\example_shebang.cmd` and `#!icon.cmd` work together to avoid copying the virtual machine when translating and running an Icon script on-the-fly.
+  - `examples\example_shebang.cmd` and `examples\#!icon.cmd` leverage `icon.cmd`.
     - See smoke test 8 in `smoke_test.cmd`.
     - See also "Shebang - scripting with Icon" for details.
 
