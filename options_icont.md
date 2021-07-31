@@ -1,4 +1,4 @@
-# Command line options for Windows `Icon-2 Version 9.3.2.  February 20, 1999`
+# Command line options for `Portable Windows Icon Version 9.5.21b, July 21, 2021` 
 
 References:
 - [https://web.archive.org/web/20000902165350/http://www.cs.arizona.edu/icon/refernce/icontx.htm](Capture from 2000 of http://www.cs.arizona.edu/icon/refernce/icontx.htm)
@@ -8,34 +8,36 @@ References:
   - GNU tar could not:
     - `tar (GNU tar) 1.12`
 
-## `nticont` - Icon Translator
+## `bin\icont.exe` - Icon Translator
 
 ```
 usage: icont [-cstuEIX] [-fs] [-e efile] [-o ofile] file ... [-x args]
 ```
-From `src/icont/tmain.c`:
-
-- `-c` (line 644) compile only
+From `sed -n -e '/case/ {s/.*-/   -/; s/[*][\/]//; p}' tunix.c`:
+- `-c`: compile only (no linking)
   - Perform no linking, just produce `.u1` and `.u2` files
-- `-fs` prevent removal of all unreferenced declarations
+- `-e file`: [undoc] redirect stderr
+- `-fs` or `-f s`: prevent removal of all unreferenced declarations
   - same as putting "invocable all" in your program
-- `-s` (line 644) suppress informative messages
-- `-t` (line 689) turn on procedure tracing
-- `-u` (line 692) warn about undeclared ids
-- `-v n` set verbosity of output, where n = 
-  - `0` suppress non-error output (same as -s)
+- `-o file`: name output file
+- `-p`: enable icode profiling
+- `-s`: suppress informative messages (same as `-v 0`)
+- `-t`: turn on procedure tracing
+- `-u`: warn about undeclared ids
+- `-v n`: set verbosity level, where `n` is:
+  - `0` suppress non-error output (same as `-s`)
   - `1` list procedure names (the default)
   - `2` also report the sizes of icode sections (procedures, strings, and so forth)
   - `3` also list discarded globals
-- `-E` (Line 609) preprocess only
-- `-I` (line 631) do not make EXE
-  - This is apparently ignored because it is not applicable to this build.
-- `-X` (line 631) make EXE 
-  - This is apparently the default.
+- `-E`: preprocess only
+- `-V`: print version information
+- Note that these options do not work as described on Microsoft Windows:
+  - `-P program`: execute from argument
+  - `-N`: don't embed iconx path
+  - `-X srcfile`: execute single srcfile
+  - `-x`: illegal until after file list
 
-Line 938 of `src/icont/tmain.c` reads from `nticonx.exe` as long as it is in the current directory or accessible via the `PATH` environment variable.
-
-### `nticont` search paths:
+### `icont` search paths:
 ```
 Name         Default    Description
 --------     -------    -----------------------
@@ -44,7 +46,7 @@ LPATH        none       search path for $include directives
 ```
 Search paths are blank-separated lists of directories. The current directory is searched before a search path is used.
 
-## `nticonx` - Icon Interpreter
+## `bin\iconx.exe` - Icon Interpreter
 
 ```
 usage: iconx icode-file-name [arguments for Icon program]

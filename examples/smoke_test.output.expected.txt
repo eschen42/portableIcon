@@ -3,107 +3,126 @@
 # world.icn is the Icon program to be translated and run
 
 procedure main(args)
+  write("There are ", *args, " args")
   every write(!args)
   every write(&features)
-  # write(&progname)
   write(&version)
 end
 
 
 -------  Test one   - Translate with default options [1]  ---------
+There are 1 args
 one
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test two   - Translate with custom options [2]  ---------
+There are 2 args
 one
 two
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test three - Translate from within a script and run [3]  ---------
+There are 3 args
 one
 two
 three
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test four  - Explicity run the Icon Virtual Machine [4]  ---------
+There are 4 args
 one
 two
 three
 four
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test five  - Implicity run the Icon Virtual Machine using CMD [5]  ---------
+There are 5 args
 one
 two
 three
 four
 five
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test six  - Implicity run the Icon Virtual Machine in the background using START [6]  ---------
+There are 6 args
 one
 two
 three
 four
 five
 six
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test seven  -  Do not include the Icon Virtual Machine in the output file [7]  ---------
+There are 7 args
 uno
 deux
 drei
@@ -111,71 +130,83 @@ tessera
 cinque
 seis
 seven
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test eight  -  Shebang example [8]  ---------
-C:\Users\art\src\portable_icon_932\examples\example_shebang.cmd
+There are 3 args
 eight
 is
 enough
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-C:\Users\art\src\PORTAB~1\examples\-.bat
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test nine  -  icon invokes icont and iconx [9]  ---------
+There are 2 args
 nine
 with quoted path
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
+There are 2 args
 nine
 without quoted path
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
+There are 1 args
 nine with stdin
-MS Windows NT
-POSIX
+MS Windows
+Cygwin
 ASCII
 co-expressions
+dynamic loading
 environment variables
-external functions
+external values
 keyboard functions
 large integers
+pipes
 system function
-Icon-2 Version 9.3.2.  February 20, 1999
+Icon Version 9.5.21b, July 21, 2021
 
 -------  "Where there's smoke, there's fire." -Anonymous ---------
