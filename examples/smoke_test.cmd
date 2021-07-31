@@ -1,14 +1,16 @@
 @ set ERRORLEVEL=&setlocal&echo off
 @ set SENTINEL=NOT_ICON& set PROMPT=running -$G &set ECHO_ON=off
 
+pushd %~dps0
+
 :: Extract world.icn from example_stdin.cmd
 findstr /v "%SENTINEL%" example_stdin.cmd > world.icn
+
 :: Delete any pre-existing executable
 if exist "%~dp0world.exe" del "%~dp0world.exe"
 if exist "%~dp0world.bat" del "%~dp0world.bat"
 
-pushd %~dps0
-
+echo.
 echo -------  Here is the Icon program used for these examples ---------
 type "%~dp0world.icn"
 
