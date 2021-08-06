@@ -145,10 +145,19 @@ system function
 Icon Version 9.5.21b, July 21, 2021
 
 -------  Test eight  -  Shebang example [8]  ---------
-There are 3 args
+There are 12 args
+ten
+nine
 eight
-is
-enough
+seven
+six
+five
+four
+three
+two
+one
+zero
+blast off
 MS Windows
 Cygwin
 ASCII

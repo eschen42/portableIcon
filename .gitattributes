@@ -22,3 +22,6 @@
 *.dia binary
 *.exe binary
 *.png binary
+*.u1 binary
+*.u2 binary
+*.u binary

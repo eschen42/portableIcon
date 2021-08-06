@@ -109,7 +109,7 @@ set PROMPT=running eight -$G
 
 
 :: the shebang line in this case is NOT emitted because echo is OFF
-call "%~dp0example_shebang.cmd" eight is enough
+call "%~dp0example_shebang.cmd" ten nine eight seven six five four three two one zero "blast off"
 @echo off
 
 echo.

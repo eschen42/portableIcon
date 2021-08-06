@@ -1,9 +1,20 @@
 @setlocal&set ICNFILE=%~dpnsx1.icn
 @copy %~dpnsx1 %ICNFILE% >NUL
 @set ICON=%~dps0icon.cmd&shift&shift
-%ICON% %ICNFILE% %0 %1 %2 %3 %4 %5 %6 %7 %8 %9
+@set ARGS=
+:: shift till last arg is %0
+@set ARG=%0
+@if not defined ARG goto got_args
+@:more_args
+@  set ARGS=%ARGS% %ARG%
+@  shift
+@  set ARG=%0
+@  if not defined ARG goto got_args
+@  goto more_args
+@:got_args
+@call %ICON% %ICNFILE% %ARGS%
 @del %ICNFILE%
-goto :eof
+@goto :eof
 
-This demonstrates a shebang implementation limited to ten arguments.
-TODO support more arguments.
+This demonstrates a shebang implementation with arguments limited only
+to the maximum size of an environment variable.
