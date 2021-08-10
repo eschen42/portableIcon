@@ -54,9 +54,15 @@ echo.
 echo -------  Test four  - Explicity run the Icon Virtual Machine [4]  ---------
 set PROMPT=running four -$G
 @echo %ECHO_ON%
-"%~dp0..\bin\icont.exe" -s -u "%~dp0world.icn"
+"%~dp0..\bin\nticont.exe" -s -u "%~dp0world.icn"
 @echo %ECHO_ON%
-"%~dp0..\bin\iconx.exe" "%~dp0world.exe" one two three four
+"%~dp0..\bin\nticonx.exe" "%~dp0world.exe" one two three four
+@echo off
+
+@echo %ECHO_ON%
+"%~dp0..\icont.exe" -s -u "%~dp0world.icn"
+@echo %ECHO_ON%
+"%~dp0..\iconx.exe" "%~dp0world.bat" won too three faure
 @echo off
 
 setlocal

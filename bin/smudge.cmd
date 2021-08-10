@@ -9,7 +9,7 @@ if     defined ARG2 goto :usage
 if not defined ARG1 goto :usage
 if not exist %ARG1%.exe goto :usage
 if /I not "%ARG1x%" == ".exe" goto :usage
-if not defined ICONX set ICONX=%~dps0iconx.exe
+if not defined ICONX set ICONX=%~dps0nticonx.exe
 :: Write the following inline text to file specified by the SMUDGE envar,
 ::   stopping at :HERE_END, using delayed-expansion syntax
 :::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
@@ -18,20 +18,20 @@ call :heredoc :HERE_END > %ARG1dir%%SMUDGE% & goto :HERE_END || goto :HERE_ERROR
 @echo off
 set IXBIN=!ICONX!
 setlocal
-:: the unix seach order is ICONX, IXLCL, IXBIN, iconx
+:: the unix seach order is ICONX, IXLCL, IXBIN, ./nticonx
 ::   ICONX can be defined to point to the executable and bypass the logic
-::   IXLCL executes a local copy of iconx, i.e, iconx in same dir as icode
-::   IXBIN is the path to iconx inserted by icont the stub before the icode
-::   if nothing else, search for iconx on the search path
+::   IXLCL executes a local copy of nticonx, i.e, nticonx in same dir as icode
+::   IXBIN is the path to nticonx inserted by icont the stub before the icode
+::   if nothing else, search for nticonx on the search path
 ::
 ::   ICONX can be defined to point to the executable and bypass the logic
 if defined ICONX goto :have_iconx
-::   IXLCL executes a local copy of iconx, i.e, %~dps0\iconx.exe
-set IXLCL=%~dps0iconx.exe
+::   IXLCL executes a local copy of nticonx, i.e, %~dps0\nticonx.exe
+set IXLCL=%~dps0nticonx.exe
 if exist %IXLCL% set ICONX=%IXLCL%&goto :have_iconx
-::   IXBIN is the path to iconx inserted by icont the stub before the icode
+::   IXBIN is the path to nticonx inserted by icont the stub before the icode
 if exist %IXBIN% set ICONX=%IXBIN%&goto :have_iconx
-::   if nothing else, search PATH for iconx.cmd, iconx.bat, or iconx.exe
+::   if nothing else, search PATH for iconx.cmd or iconx.bat
 set ICONX=iconx
 
 :have_iconx

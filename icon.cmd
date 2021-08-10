@@ -35,11 +35,11 @@ if "%ICN_FILE%" == "-" set ARG1bat=%ARG1dps%pipe%RANDOM%.bat& set ARG1exe=%ARG1d
   if not exist %ARG1dpnsx% if not exist %ARG1dpnsx%.icn goto usage_ERROR
   if /I not "%ARG1dpnsx:~-4%" == ".icn" set ARG1dpnsx=%ARG1dpnsx%.icn 
   if not exist %ARG1dpnsx% goto usage_ERROR
-  cmd /c ^"type %ARG1dpnsx% ^| call %ARG0%icont.cmd -o %ARG1exe% -u -v0 %ICONT_ARGS% - ^& if exist %ARG1exe% ( %ARG0%bin\iconx.exe %ARG1exe% %ARGS% ^& del %ARG1exe% ) else (echo translation FAILED) ^"
+  cmd /c ^"type %ARG1dpnsx% ^| call %ARG0%icont.cmd -o %ARG1exe% -u -v0 %ICONT_ARGS% - ^& if exist %ARG1exe% ( %ARG0%bin\nticonx.exe %ARG1exe% %ARGS% ^& del %ARG1exe% ) else (echo translation FAILED) ^"
   goto post_pipe
 
 :have_pipe
-cmd /c ^"call %ARG0%icont.cmd -o %ARG1exe% -u -v0 - ^& if exist %ARG1exe% ( %ARG0%bin\iconx.exe %ARG1exe% %ARGS% ^& del %ARG1exe% ) else (echo translation FAILED) ^"
+cmd /c ^"call %ARG0%icont.cmd -o %ARG1exe% -u -v0 - ^& if exist %ARG1exe% ( %ARG0%bin\nticonx.exe %ARG1exe% %ARGS% ^& del %ARG1exe% ) else (echo translation FAILED) ^"
 
 :post_pipe
 set EXIT_ERROR=%ERRORLEVEL%

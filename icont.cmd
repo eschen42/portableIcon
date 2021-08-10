@@ -15,7 +15,7 @@
   pushd "%~dps0"
   set BINDIR=%CD%\bin
   :: set full 8.3 path to interpreter
-  set MYNTICONT="%BINDIR%\icont.exe"
+  set MYNTICONT="%BINDIR%\nticont.exe"
   :: Unless IPATH has already been set, link files either in working
   ::   directory or in ipl\procs
   if not defined IPATH set IPATH=%ME_FIRST% %~dps0ipl\procs

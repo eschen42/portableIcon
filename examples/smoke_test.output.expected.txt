@@ -80,8 +80,26 @@ large integers
 pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
+There are 4 args
+won
+too
+three
+faure
+MS Windows
+Cygwin
+ASCII
+co-expressions
+dynamic loading
+environment variables
+external values
+keyboard functions
+large integers
+pipes
+system function
+Icon Version 9.5.21b, July 21, 2021
 
 -------  Test five  - Implicity run the Icon Virtual Machine using CMD [5]  ---------
+"usage: smudge.cmd <icode.exe>"
 There are 5 args
 one
 two
