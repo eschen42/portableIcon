@@ -5,7 +5,6 @@
 procedure main(args)
   every write(!args)
   every write(&features)
-  write(&progname)
   write(&version)
 end
 

@@ -123,7 +123,6 @@ system function
 Icon-2 Version 9.3.2.  February 20, 1999
 
 -------  Test eight  -  Shebang example [8]  ---------
-C:\Users\art\src\portable_icon_932\examples\example_shebang.cmd
 eight
 is
 enough
@@ -136,7 +135,6 @@ external functions
 keyboard functions
 large integers
 system function
-C:\Users\art\src\PORTAB~1\examples\-.bat
 Icon-2 Version 9.3.2.  February 20, 1999
 
 -------  Test nine  -  icon invokes icont and iconx [9]  ---------
