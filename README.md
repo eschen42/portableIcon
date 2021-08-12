@@ -1,6 +1,6 @@
 # Portable Icon 9.5.2
 
-The Icon progamming language [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-level, general-purpose programming language that is in the public domain.  Icon programs translated by the Icon translator ("icont") can be run by the Icon interpreter ("iconx").
+The Icon programming language [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-level, general-purpose programming language that is in the public domain.  Icon programs translated by the Icon translator ("icont") can be run by the Icon interpreter ("iconx").
 
 Frequently, Icon can be an expressive and enjoyable way to write software.  You might find it helpful to copy the framework for writing and running Icon programs to your home directory.
 
@@ -38,7 +38,7 @@ Note that invoking `icont.cmd` or `icont.exe` produces `.bat' program that needs
 - `icont.exe`
   - This is a "convenience program" that calls `icont.cmd`, passing all of its arguments through to `icont.cmd`.
   - This allows one to put `icont world.icn` into a batch file without the word `call` as would be required for `call icont.cmd world.icn` for execution to resume in the calling batch file.
-  - See [the `README.md` file in the `src` directory](./src/README.md) for an explantion.
+  - See [the `README.md` file in the `src` directory](./src/README.md) for an explanation.
 - `icont_nosmudge.cmd`
   - This script invokes `icont` with a directive **not** to wrap the icode into a `.bat` file.  Rather, a non-executable `.exe` file containing the icode is produced.
   - See smoke test 7 in `examples\smoke_test.cmd`.
@@ -47,7 +47,7 @@ Note that invoking `icont.cmd` or `icont.exe` produces `.bat' program that needs
 - `iconx.exe`
   - This is a "convenience program" that calls `iconx.cmd`, passing all of its arguments through to `iconx.cmd`.
   - This allows one to put `iconx myicodefile` into a batch file without the word `call` as would be required for `call icont.cmd myicodefile` for execution to resume in the calling batch file.
-  - See [the `README.md` file in the `src` directory](./src/README.md) for an explantion.
+  - See [the `README.md` file in the `src` directory](./src/README.md) for an explanation.
 - `icon.cmd`
   - This is a "convenience script" for both compiling a `.icn` file and running it with the supplied arguments.
   - usage: `icon [options for icont] [program.icn or -] [args]`
@@ -55,7 +55,7 @@ Note that invoking `icont.cmd` or `icont.exe` produces `.bat' program that needs
   - "Shebang - scripting with Icon" makes use of this script.
   - See smoke test 9 in `examples\smoke_test.cmd`.
 - `#!icon.cmd`
-  - This script facilitates contruction of scripts that are valid Icon source code and may be just-in-time translated and executed.  
+  - This script facilitates construction of scripts that are valid Icon source code and may be just-in-time translated and executed.  
   - See `example\example_shebang.cmd` and `example\#!icon.cmd` to see how to reference and use this script.
 
 ### Files that you do not need to interact with directly
@@ -65,12 +65,12 @@ The following files are used by the top level programs; you shouldn't need to in
 - `bin\nticont.exe`
   - This is the actual Icon translator.
   - When invoked without the `-o` argument, this writes "icode" to a (non-functional) `.exe` with the same name as the `.icn` file, in the same directory.
-  - See `icont.*` below for a convient way to invoke this indirectly.
+  - See `icont.*` below for a convenient way to invoke this indirectly.
   - [`options_nticont.md`](./options_nticont.md) describes the options that may be passed for `nticont` and the environment variables that may be set for running the translated program.
     - This is drawn from [the `icont` reference material](https://cs.arizona.edu/icon/refernce/icontx.htm#icont).
 - `bin\nticonx.exe`
   - This is the actual Icon interpreter, which executes "icode".
-  - See `iconx.*` for a convient way to invoke this indirectly.
+  - See `iconx.*` for a convenient way to invoke this indirectly.
 - `bin\smudge.cmd` is a small utility that converts an "icode" file into a `.bat` file that locates and invokes the virtual machine; the search order is:
   1. The path set in the `ICONX` environment variable.
   1. `nticonx.exe` if it exists in the same directory as the `.bat` file. 

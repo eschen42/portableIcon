@@ -11,9 +11,7 @@ Use file in this directory as described below to build:
 
 To build `..\bin\nticont.exe` and `..\bin\nticonx.exe`, copy this directory is to into the corresponding directory in the Icon source tree of Icon 9.5.2 and compile under Cygwin 3.2.0.
 
-Check back around 14:15 for archive.org captures of these links.
- 
-Note that `..\bin\cygwin1.dll` is a renamed copy of the Cygnal DLL [http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll](http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll), which is required for running these executables outside the context of Cygwin.  This version corresponds to Cygwin 3.2.0's `cygwin1.dll`.  For more information regarding the "Cygwin Native Application Library", see the project homepage: [http://www.kylheku.com/cygnal/](http://www.kylheku.com/cygnal/).
+Note that `..\bin\cygwin1.dll` is a renamed copy of the Cygnal DLL [http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll](http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll), which is required for running these executables outside the context of Cygwin.  This version corresponds to Cygwin 3.2.0's `cygwin1.dll`.  For more information regarding the "Cygwin Native Application Library", including an MD5 checksum for the DLL, see an HTTPS capture of the project homepage at: [https://web.archive.org/web/20210811182329/http://www.kylheku.com/cygnal/](https://web.archive.org/web/20210811182329/http://www.kylheku.com/cygnal/).
 
 # About `.\callcmd.c`
 
