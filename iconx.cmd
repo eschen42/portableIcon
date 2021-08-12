@@ -1,1 +1,1 @@
-@%~dp0bin\nticonx.exe %*
+@%~dps0bin\nticonx.exe %*

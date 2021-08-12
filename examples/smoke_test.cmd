@@ -153,13 +153,13 @@ call %~dps0..\icon.cmd "%~dps0world.icn" nine "with quoted path to Icon source"
 call %~dps0..\icon.cmd %~dps0world.icn nine "without quoted path to Icon source"
 @echo.
 @echo. 9c. Invoke the icon.cmd script on source from stdin
-type %~dp0world.icn | %~dps0..\icon.cmd - nine "with Icon source from stdin"
+type "%~dp0world.icn" | %~dps0..\icon.cmd - nine "with Icon source from stdin"
 @echo.
 @echo. 9d. Invoke the icont.cmd [not icono.cmd] script with spaces in file name
-copy %~dp0world.icn "%~dp0mio mundo.icn" >NUL
-call %~dps0..\icont.cmd -v0 "%~dps0mio mundo.icn"
-call "%~dps0mio mundo.bat" nine "via icont.cmd (rather than icon.cmd)"
-del "%~dp0mio mundo.icn"
+copy "%~dp0world.icn" "%~dp0mio mundo.icn" >NUL
+call %~dps0..\icont.cmd -v0 "%~dps0mio mundo.icn"& call "%~dps0mio mundo.bat" nine "via icont.cmd (rather than icon.cmd)"
+if exist "%~dp0mio mundo.icn" del "%~dp0mio mundo.icn"
+if exist "%~dp0mio mundo.bat" del "%~dp0mio mundo.bat"
 @echo off
 
 @echo.

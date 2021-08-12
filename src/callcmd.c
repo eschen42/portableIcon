@@ -31,7 +31,7 @@
 int main( int argc, char *argv[] ) {
   STARTUPINFO si;
   PROCESS_INFORMATION pi;
-  char cmdline[CMDLINE_SIZE] = "cmd /c ";
+  char cmdline[CMDLINE_SIZE] = "cmd /c (\"";
   char *pos = cmdline + strlen(cmdline);
   char *arg0 = pos;
   DWORD result;
@@ -77,6 +77,7 @@ int main( int argc, char *argv[] ) {
         argv[0], arg0, argv[0]);
     return ERROR_FILE_NOT_FOUND; // ERROR_FILE_NOT_FOUND = 2 in error.h
   }
+  strncat(pos, "\"", CMDLINE_SIZE - (1 + (pos - cmdline)));
 
   for (i=1; i<argc; ++i) {
     if (!strchr(argv[i],' ')) {
@@ -89,26 +90,30 @@ int main( int argc, char *argv[] ) {
     }
   }
 
+  strncat(cmdline, ")", CMDLINE_SIZE - 2);
+#ifdef PRINT_CMDLINE
+  fprintf(stderr, "%s\n", cmdline);
+#endif
+
   // ref: https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa366877(v=vs.85)
   SecureZeroMemory( &si, sizeof(si) );
   si.cb = sizeof(si);
   SecureZeroMemory( &pi, sizeof(pi) );
 
-  // Start the child process. 
+  // Start the child process.
   // ref: https://docs.microsoft.com/en-us/windows/win32/procthread/creating-processes
   // ref: https://github.com/rprichard/win32-console-docs
   if( !CreateProcessA( NULL,   // No module name (use command line)
-    //argv[1],        // Command line
     cmdline,        // Command line
     NULL,           // Process handle not inheritable
     NULL,           // Thread handle not inheritable
     FALSE,          // Set handle inheritance to FALSE
     0,              // No creation flags
     NULL,           // Use parent's environment block
-    NULL,           // Use parent's starting directory 
+    NULL,           // Use parent's starting directory
     &si,            // Pointer to STARTUPINFO structure
     &pi )           // Pointer to PROCESS_INFORMATION structure
-  ) 
+  )
   {
     printf( "CreateProcess failed (%d).\n", GetLastError() );
     return GetLastError();
@@ -117,7 +122,7 @@ int main( int argc, char *argv[] ) {
   // Wait until child process exits.
   WaitForSingleObject( pi.hProcess, INFINITE );
 
-  // Close process and thread handles. 
+  // Close process and thread handles.
   CloseHandle( pi.hProcess );
   CloseHandle( pi.hThread );
 
