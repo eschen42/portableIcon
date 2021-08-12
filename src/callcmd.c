@@ -37,6 +37,7 @@ int main( int argc, char *argv[] ) {
   DWORD result;
   DWORD last_error;
   int i;
+  DWORD exit_code = 0;
 
   // ref: https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamea
   result = GetModuleFileName(0, pos, CMDLINE_SIZE - 1);
@@ -122,10 +123,14 @@ int main( int argc, char *argv[] ) {
   // Wait until child process exits.
   WaitForSingleObject( pi.hProcess, INFINITE );
 
+  if (!GetExitCodeProcess(pi.hProcess, &exit_code)) {
+    printf("GetExitCodeProcess failed to produce the exit code\n");
+  }
+
   // Close process and thread handles.
   CloseHandle( pi.hProcess );
   CloseHandle( pi.hThread );
 
-  return 0;
+  return exit_code;
 }
 // vim: ai sw=2 ts=2 et :

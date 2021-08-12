@@ -1,5 +1,6 @@
 @ set ERRORLEVEL=&setlocal&echo off
 @ set SENTINEL=findstr& set PROMPT=running -$G &set ECHO_ON=off
+:: single-ampersand means execute second command regardless of EXITCODE from first command
 
 pushd %~dps0
 
@@ -157,7 +158,8 @@ type "%~dp0world.icn" | %~dps0..\icon.cmd - nine "with Icon source from stdin"
 @echo.
 @echo. 9d. Invoke the icont.cmd [not icono.cmd] script with spaces in file name
 copy "%~dp0world.icn" "%~dp0mio mundo.icn" >NUL
-call %~dps0..\icont.cmd -v0 "%~dps0mio mundo.icn"& call "%~dps0mio mundo.bat" nine "via icont.cmd (rather than icon.cmd)"
+:: double-ampersand means execute second command only if first command returns zero EXITCODE
+call %~dps0..\icont.cmd -v0 "%~dps0mio mundo.icn"&& call "%~dps0mio mundo.bat" nine "via icont.cmd (rather than icon.cmd)"
 if exist "%~dp0mio mundo.icn" del "%~dp0mio mundo.icn"
 if exist "%~dp0mio mundo.bat" del "%~dp0mio mundo.bat"
 @echo off
