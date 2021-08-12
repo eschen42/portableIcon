@@ -1,3 +1,3 @@
 @set ERRORLEVEL=&setlocal&echo off
-set ICONT_NOPATH=TRUE
+set ICONT_NOSMUDGE=TRUE
 "%~dp0icont.cmd" %*

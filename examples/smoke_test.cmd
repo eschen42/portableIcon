@@ -1,5 +1,5 @@
 @ set ERRORLEVEL=&setlocal&echo off
-@ set SENTINEL=NOT_ICON& set PROMPT=running -$G &set ECHO_ON=off
+@ set SENTINEL=findstr& set PROMPT=running -$G &set ECHO_ON=off
 
 pushd %~dps0
 
@@ -116,10 +116,10 @@ set PROMPT=running seven -$G
 
 set PATH=OLD_%PATH%
 @echo %ECHO_ON%
-call "%~dp0..\icont_nopath.cmd" -s -u "%~dp0world.icn"
+call "%~dp0..\icont_nosmudge.cmd" -s -u "%~dp0world.icn"
 
 @echo %ECHO_ON%
-if exist "%~dp0world.exe" echo Unexpectedly having to smudge "world.exe"
+if not exist "%~dp0world.exe" echo Unexpectedly NOT having to smudge "world.exe"
 if exist "%~dp0world.exe" call "%~dp0..\bin\smudge.cmd" "%~dp0world.exe" >NUL
 @echo %ECHO_ON%
 if exist "%~dp0world.bat" call "%~dp0world.bat" uno deux drei tessera cinque seis seven

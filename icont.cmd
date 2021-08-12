@@ -38,7 +38,7 @@
   if not defined ICODE set ICODE="%ISRC:~1,-1%"
   if ""%ISRC%"" == """-""" set ICODE="stdin"
   :: @if exist "%ICODE:~1,-1%.exe" echo "%ICODE:~1,-1%.exe" exists
-  if exist "%ICODE:~1,-1%.exe" (
+  if not defined ICONT_NOSMUDGE if exist "%ICODE:~1,-1%.exe" (
     call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%.exe" %STANDALONE% >NUL
   )
   :: Produce result returned by translator
