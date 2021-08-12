@@ -1,26 +1,30 @@
-# Portable Icon 9.3.2
+# Portable Icon 9.5.2
 
-## Motivation
+Icon [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-level, general-purpose programming language that is in the public domain.  It runs on an efficient virtual machine.
 
-Sometimes a small, single-file binary is what's needed for a simple task.  Frequently, Icon/Unicon can be an expressive and enjoyable way to write software to accomplish the task.
-- This repository provides is a portable collection of binary and library files for running Icon 9.3.2 for Windows (compiled February 20, 1999) that has been tested on Windows 10.
- - Icon 9.3.2 for Windows produces binaries as small as 260kb that:
-   - include the Icon Virtual Machine, and
-   - are without external dependencies.
-- The repository also provides rudimentary support for writing scripts in Icon.
+Frequently, the Icon programming languate can be an expressive and enjoyable way to write software.  You might find it helpful to copy the framework for writing and running Icon programs to your home directory.
 
-### Background
+- This repository provides is a small, portable collection of binary and library files for running Icon 9.5.2 on Microsoft Windows in a manner similar to how Icon runs on Unix.
+  - This build has been tested on Windows 10.
+  - This framework embeds "icode" (translated Icon programs) embedded `.bat` files that provide for several ways of searching for the "iconx" runtime.
+    - This is very similar to how Icon 9.3.2 for Windows produces `.bat` files when directed not to include a copy of the Icon VM when translating Icon programs.
+- This repository also provides rudimentary support for writing scripts in Icon.
 
-Icon [https://cs.arizona.edu/icon/](https://cs.arizona.edu/icon/) is a high-level, general-purpose programming language that is in the public domain.  It runs on an efficient virtual machine.  There exists [a modern build of Icon for Windows (from 2015)](https://www2.cs.arizona.edu/icon/v95w.htm) for which source code is not presently available.
+The icon translator and interpreter here were built in July 2021 using Cygwin as described in the `README.md` file in the `src` directory.  (These were compiled without support for the Icon graphical interface, and they differ from [the build of Icon for Windows (from 2015)](https://www2.cs.arizona.edu/icon/v95w.htm), for which source code is not presently available.)  
 
-There is also an actively developed language extending Icon called Unicon that is preferred for general software development because it provides multithreading and better integration with networking, databases, messaging, file attributes, and the operating system: [http://unicon.org/](http://unicon.org/).  Unicon stand-alone binaries have a minimum size of about 5.5mb (20-fold higher than Icon).
+(There is also an actively developed language extending Icon called Unicon that is preferred for general software development because it provides multithreading and modern integration with networking, databases, messaging, file attributes, and the operating system: [http://unicon.org/](http://unicon.org/).  Unicon for Windows produces stand-alone binaries have a minimum size of about 5.5mb.)
 
 ## Files in this repository
 
-- `nticont.exe` is the Icon translator.
-  - When invoked without the `-o` argument, this produces a `.exe` with the same name as the `.icn` file, in the same directory.
-- `nticonx.exe` is the Icon virtual machine, which normally is incorporated into the built executable.
-  - In other words, `nticont.exe` builds an executable that runs without dependecies on any other files or shared libraries.
+- `bin\nticont.exe` is the Icon translator.
+  - When invoked without the `-o` argument, this writes "icode" to a (non-functional) `.exe` with the same name as the `.icn` file, in the same directory.
+- `bin\nticonx.exe` is the Icon virtual machine, which executes "icode".
+- `bin\smudge.cmd` is a small utility that converts an "icode" file into a `.bat` file that locates and invokes the virtual machine; the search order is:
+  1. The path set in the `ICONX` environment variable.
+  1. `nticonx.exe` if it exists in the same directory as the `.bat` file. 
+      - This is to mimic the behavior of the Unix build; it would require a copy of `bin\cygwin1.dll` to be in the directory as well.
+  1. `bin\nticonx.exe` if it still exists (i.e., if it has not been moved since the `.bat` file was produced).
+  1. The first `iconx.exe`, `iconx.bat`, or `iconx.cmd` on the executable path, i.e., the `PATH` environmental variable.
 - [`options_nticont.md`](./options_nticont.md) describes the options that may be passed for `nticont` and the environment variables that may be set for running the translated program.
   - This is drawn from [the reference page](https://cs.arizona.edu/icon/refernce/icontx.htm#icont) and [the v9.32 source code](https://cs.arizona.edu/icon/ftp/packages/unix/).
 - [`examples\smoke_test.cmd`](./examples/smoke_test.cmd) demonstrates use of the following files:
@@ -119,3 +123,11 @@ Another option (certainly not limited to Icon) is to do just-in-time translation
 ## Bugs
 
 So far, I have not found a way to express an IPATH or LPATH that has directories that themselves include spaces, except by using ["8.3" filenames](https://en.wikipedia.org/wiki/8.3_filename#Working_with_short_filenames_in_a_command_prompt).
+
+# Portable Icon 9.3.2
+
+A portable version of Icon 9.3.2 is available on the `icon_v9.3.2` branch:
+
+- That version can be used to create stand-alone binaries.
+- A release of that version is available at [https://github.com/eschen42/portableIcon/releases/tag/v9.3.2_rc1](https://github.com/eschen42/portableIcon/releases/tag/v9.3.2_rc1).
+- For a description, see [https://github.com/eschen42/portableIcon/tree/icon_v9.3.2](https://github.com/eschen42/portableIcon/tree/icon_v9.3.2)

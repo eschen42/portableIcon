@@ -1,19 +1,24 @@
-@set ERRORLEVEL=&setlocal&set ECHO_ON=off&echo %ECHO_ON%
+@set ERRORLEVEL=&setlocal&set ECHO_ON=off
+@echo %ECHO_ON%
 set SMUDGE=smudge%RANDOM%
+set ARG0=%~dpnxs0
+set ARG0dir=%~dps0
+set ARG0nx=%~nx0
 set ARG1dir=%~dps1
 set ARG1=%~dpns1
 set ARG1long=%~dps1%~n1
 set ARG1x=%~xs1
 set ARG2=%2
-if     defined ARG2 goto :usage
+set ARG3=%3
+if     defined ARG3 goto :usage
 if not defined ARG1 goto :usage
-if not exist %ARG1%.exe goto :usage
+if not exist "%ARG1%.exe" goto :usage
 if /I not "%ARG1x%" == ".exe" goto :usage
-if not defined ICONX set ICONX=%~dps0nticonx.exe
+if not defined ICONX set ICONX=%ARG0dir%nticonx.exe
 :: Write the following inline text to file specified by the SMUDGE envar,
 ::   stopping at :HERE_END, using delayed-expansion syntax
-:::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
 pushd %~dps0
+:::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
 call :heredoc :HERE_END > %ARG1dir%%SMUDGE% & goto :HERE_END || goto :HERE_ERROR
 @echo off
 set IXBIN=!ICONX!
@@ -40,8 +45,8 @@ exit /b %ERRORLEVEL%
 :: unix stub follows
 
 :HERE_END
-popd
 :::::::::::::::::::::::::::: END INLINE TEXT  ::::::::::::::::::::::::::::::
+popd
 echo %ECHO_ON%
 
 :: You can un-comment out the next echo line if you run your programs by
@@ -50,9 +55,13 @@ echo %ECHO_ON%
 :: echo pause>> %SMUDGE%
 
 move /y %ARG1%%ARG1x% %ARG1%.%SMUDGE% >NUL
-copy /y %ARG1dir%%SMUDGE% %ARG1long%.bat >NUL
+copy /y %ARG1dir%%SMUDGE% "%ARG1long%.bat" >NUL
 type %ARG1%.%SMUDGE% >> "%ARG1long%.bat"
 del  %ARG1dir%%SMUDGE% %ARG1%.%SMUDGE%
+if not defined ARG2 exit/b 0
+if not "%ARG2%" == "--standalone" exit/b 0
+if not exist %ARG1dir%nticonx.exe copy %ARG0dir%nticonx.exe %ARG1dir%nticonx.exe >NUL
+if not exist %ARG1dir%cygwin1.dll copy %ARG0dir%cygwin1.dll %ARG1dir%cygwin1.dll >NUL
 exit/b 0
 
 :HERE_ERROR

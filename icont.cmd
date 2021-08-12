@@ -1,11 +1,14 @@
   @set ERRORLEVEL=&setlocal&echo off
+
   :: At least one argument is required
   set ARG1=&set ARG1=%1&set ARG1s=%~dpns1
-  set ARGS=%*
-  if /I ""%1"" == ""--help"" goto usage
-  if    ""%1"" == ""/?""     goto usage
-  if /I ""%1"" == ""-H""     goto usage
+  if /I ""%1"" == ""--help"" goto help
+  if    ""%1"" == ""/?""     goto help
+  if /I ""%1"" == ""-H""     goto help
   if not defined ARG1 goto usage
+
+  :: set ARGS and STANDALONE
+  call :get_args %*
 
   :: *Before* changing to the directory with the translator,
   ::   set ME_FIRST to the current working directory.
@@ -25,20 +28,18 @@
   :: Return to working directory
   popd
   :: Pass all arguments to the translator
-  %MYNTICONT% %*
+  %MYNTICONT% %ARGS%
   set MY_RESULT=%ERRORLEVEL%
-  ::::obsolete :: Ensure that noop.bat exists in local directory when translation was
-  ::::obsolete ::   successful.  Although this is not needed for .exe files, there is
-  ::::obsolete ::   no easy way to tell whether a .exe or a .bat was produced.
-  ::::obsolete if %MY_RESULT% neq 0 if not exist noop.bat (
-  ::::obsolete   echo exit /b %%ERRORLEVEL%%> noop.bat
-  ::::obsolete )
+
 :shift_loop
     shift
     if NOT .%1. == .. goto shift_loop
 
-  if exist %~dpns0.exe (
-    call "%BINDIR%\smudge.cmd" %~dpns0.exe >NUL
+  if not defined ICODE set ICODE="%ISRC:~1,-1%"
+  if ""%ISRC%"" == """-""" set ICODE="stdin"
+  :: @if exist "%ICODE:~1,-1%.exe" echo "%ICODE:~1,-1%.exe" exists
+  if exist "%ICODE:~1,-1%.exe" (
+    call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%.exe" %STANDALONE% >NUL
   )
   :: Produce result returned by translator
   exit /b %MY_RESULT%
@@ -47,6 +48,37 @@
   :: Set the ME_FIRST environment variable
   set ME_FIRST=%~dpns1
   exit /b 0
+
+::::::::::::::::::::::::::: :get_args subroutine ::::::::::::::::::::::::::::
+:get_args
+:: shift to dispose of name of subroutine
+shift
+:: wipe ARGS and STANDALONE
+set ARGS=
+set STANDALONE=
+set LAST_ARG=
+set ICODE=
+set ISRC=
+:: shift till last arg is %0
+set ARG=%0
+if not defined ARG goto got_args
+:more_args
+  if not ""%ARG%"" == """%ARG:~1,-1%""" if %ARG% == --standalone goto standalone
+    set ARGS=%ARGS% %ARG%
+    goto shift_args
+  :standalone
+    set STANDALONE=--standalone
+  :shift_args
+  set LAST_ARG=%0
+  set ISRC="%~n0"
+  shift
+  set ARG=%0
+  if ""-o"" == ""%LAST_ARG%"" set ICODE=%~dpn0
+  if not defined ARG goto got_args
+  goto more_args
+:got_args
+goto :eof
+::::::::::::::::::::::::::: :get_args subroutine ::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::: :heredoc subroutine ::::::::::::::::::::::::::::
 :: https://github.com/ildar-shaimordanov/cmd.scripts/blob/master/heredoc.bat
@@ -84,6 +116,8 @@
 :usage
 
   if defined ARG1 echo %~nxs0 %*
+
+:help
   set NX0=%~nx0
   set DP0=%~dp0
   set DPNX0=%~dpnx0
@@ -109,6 +143,9 @@ usage: !NX0! [-cpstuEV] [-fs] [-e efile] [-o ofile] file
           n = 3 - also list discarded globals
    -E   Preprocess only. [This can be very helpful when debugging.]
    -V   print version information
+
+   --standalone
+        Copy nticonx.exe and cygwin1.dll to directory having .bat file.
  
 When !NX0! creates an .exe file:
    - It is likely that:

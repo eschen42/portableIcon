@@ -10,8 +10,9 @@
  *   will result in the execution of the ".exe" file.
  *
  *   This program enables "natural" invocation of a program name from a batch
- *   file without worrying whether whether the name refers to a ".exe" or a
- *   ".cmd".
+ *   file without worrying whether whether the name refers to a ".exe", a
+ *   ".bat", or a ".cmd".  Note that, if both ".bat" and ".cmd" exist, ".bat"
+ *   takes priority.
  *
  * Notes:
  *   Build this program with MinGW64 targeting x86_64-w64-mingw32
@@ -63,12 +64,16 @@ int main( int argc, char *argv[] ) {
     return result;
   }
   *pos = '\0';
-  strncat(pos, ".cmd", CMDLINE_SIZE - (5 + (pos - cmdline)));
+  strncat(pos, ".bat", CMDLINE_SIZE - (5 + (pos - cmdline)));
   // ref: https://stackoverflow.com/a/230068
   //   I used this rather than the PathFileExistsA function defined in shlwapi.h
   //   because PathFileExistsA the latter would not link for me in MinGW64
   if( access( arg0, F_OK ) != 0 ) {
-    printf("%s: File '%s' does not exist; you probably should rename '%s'\n",
+    *pos = '\0';
+    strncat(pos, ".cmd", CMDLINE_SIZE - (5 + (pos - cmdline)));
+  }
+  if( access( arg0, F_OK ) != 0 ) {
+    printf("%s: File '%s' does not exist; you probably forgot to rename '%s'\n",
         argv[0], arg0, argv[0]);
     return ERROR_FILE_NOT_FOUND; // ERROR_FILE_NOT_FOUND = 2 in error.h
   }
