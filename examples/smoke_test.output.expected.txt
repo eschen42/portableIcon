@@ -129,7 +129,7 @@ pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
 
--------  Test six  - Implicity run the Icon Virtual Machine in the background using START [6]  ---------
+-------  Test six   - Implicity run the Icon Virtual Machine in the background using START [6]  ---------
 
 There are 6 args
 one
@@ -151,7 +151,7 @@ pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
 
--------  Test seven  -  Do not include the Icon Virtual Machine in the output file [7]  ---------
+-------  Test seven - Do not include the Icon Virtual Machine in the output file [7]  ---------
 
 There are 7 args
 uno
@@ -174,7 +174,7 @@ pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
 
--------  Test eight  -  Shebang example [8]  ---------
+-------  Test eight - Shebang example [8]  ---------
 
 There are 12 args
 ten
@@ -202,12 +202,14 @@ pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
 
--------  Test nine  -  icon.cmd invokes icont.cmd and iconx.cmd [9]  ---------
+-------  Test nine  - icon.cmd invokes icont.cmd and iconx.cmd [9]  ---------
 
  9a. Invoke the icon.cmd script with quotes in the source file name
-There are 2 args
+There are 4 args
 nine
 with quoted path to Icon source
+hello
+world
 MS Windows
 Cygwin
 ASCII
@@ -222,9 +224,11 @@ system function
 Icon Version 9.5.21b, July 21, 2021
 
  9b. Invoke the icon.cmd script without quotes in the source file name
-There are 2 args
+There are 4 args
 nine
 without quoted path to Icon source
+hello
+world
 MS Windows
 Cygwin
 ASCII
@@ -239,9 +243,11 @@ system function
 Icon Version 9.5.21b, July 21, 2021
 
  9c. Invoke the icon.cmd script on source from stdin
-There are 2 args
+There are 4 args
 nine
 with Icon source from stdin
+hello
+world
 MS Windows
 Cygwin
 ASCII
@@ -256,9 +262,11 @@ system function
 Icon Version 9.5.21b, July 21, 2021
 
  9d. Invoke the icont.cmd [not icono.cmd] script with spaces in file name
-There are 2 args
+There are 4 args
 nine
 via icont.cmd (rather than icon.cmd)
+hello
+world
 MS Windows
 Cygwin
 ASCII

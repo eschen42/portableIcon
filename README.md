@@ -58,6 +58,23 @@ Note that invoking `icont.cmd` or `icont.exe` produces `.bat' program that needs
   - This script facilitates construction of scripts that are valid Icon source code and may be just-in-time translated and executed.  
   - See `example\example_shebang.cmd` and `example\#!icon.cmd` to see how to reference and use this script.
 
+### Examples of how to use the top-level files
+
+- `examples\smoke_test.cmd`
+  - This demonstrates use of most of the files in the repository (at the top level and within `examples`).
+  - See [`examples\smoke_test.output.expected.txt`](./examples/smoke_test.output.expected.txt) for the expected output.
+  - Admittedly, it isn't highly readable.
+- `examples\run_smoke_test.cmd`
+  - This runs `smoke_test.cmd` and compares the actual output to the expected output.
+  - This sets a zero exit code (accessible through the ERRORLEVEL pseudo-environment variable) when all tests pass and nonzero otherwise.
+- `examples\example_shebang.cmd` and `examples\#!icon.cmd` leverage `icon.cmd` to execute a self-translating script that is still valid Icon source code.
+  - See smoke test 8 in `examples\smoke_test.cmd`.
+  - See also "Shebang - scripting with Icon" for details.
+- `examples\example_stdin.cmd` is a simple example of how to translate and run Icon source code from a script file, passing arguments.
+  - The script is *not* valid Icon source code as a consequence.
+  - See smoke test 3 in `examples\smoke_test.cmd`.
+  - See also "Shebang - scripting with Icon" for details.
+
 ### Files that you do not need to interact with directly
 
 The following files are used by the top level programs; you shouldn't need to interact with them directly.
@@ -78,20 +95,6 @@ The following files are used by the top level programs; you shouldn't need to in
         - When you supply the argument `--standalone` to `icont.*` or to `bin\smudge.cmd`, these files will be copied to the output directory if they do not already exist there.
   1. `bin\nticonx.exe` if it still exists (i.e., if it has not been moved since the `.bat` file was produced).
   1. The first `iconx.exe`, `iconx.bat`, or `iconx.cmd` on the executable path, i.e., the `PATH` environmental variable.
-
-### Examples of how to use the top-level files
-
-- `examples\smoke_test.cmd`
-  - This demonstrates use of most of the files in the repository (at the top level and within `examples`).
-  - See [`examples\smoke_test.output.expected.txt`](./examples/smoke_test.output.expected.txt) for the expected output.
-  - Admittedly, it isn't highly readable.
-- `examples\example_shebang.cmd` and `examples\#!icon.cmd` leverage `icon.cmd` to execute a self-translating script that is still valid Icon source code.
-  - See smoke test 8 in `examples\smoke_test.cmd`.
-  - See also "Shebang - scripting with Icon" for details.
-- `examples\example_stdin.cmd` is a simple example of how to translate and run Icon source code from a script file, passing arguments.
-  - The script is *not* valid Icon source code as a consequence.
-  - See smoke test 3 in `examples\smoke_test.cmd`.
-  - See also "Shebang - scripting with Icon" for details.
 
 ## Shebang - scripting with Icon
 
