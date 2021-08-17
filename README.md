@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/5201698.svg)](https://doi.org/10.5281/zenodo.5201698)
+
 # Portable Icon 9.5.2
 
 The Icon programming language
