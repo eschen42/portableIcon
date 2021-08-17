@@ -9,9 +9,18 @@ Use file in this directory as described below to build:
 
 # About `..\bin` and `.\icon\config\cygwin_portable`
 
-To build `..\bin\nticont.exe` and `..\bin\nticonx.exe`, copy this directory is to into the corresponding directory in the Icon source tree of Icon 9.5.2 and compile under Cygwin 3.2.0.
+To build `..\bin\nticont.exe` and `..\bin\nticonx.exe`, copy `icon\config\cygwin_portable` to into the corresponding directory in the Icon source tree of Icon 9.5.2 and compile within the Cygwin 3.2.0 environment, which links them to that environment's `cygwin1.dll`.  Note that their functionality on Microsoft Windows outside of the Cygwin environment is somewhat limited.
 
-Note that `..\bin\cygwin1.dll` is a renamed copy of the Cygnal DLL [http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll](http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll), which is required for running these executables outside the context of Cygwin.  This version corresponds to Cygwin 3.2.0's `cygwin1.dll`.  For more information regarding the "Cygwin Native Application Library", including an MD5 checksum for the DLL, see an HTTPS capture of the project homepage at: [https://web.archive.org/web/20210811182329/http://www.kylheku.com/cygnal/](https://web.archive.org/web/20210811182329/http://www.kylheku.com/cygnal/).
+Cygnal is Kaz Kylheku's "Cygwin Native Application Layer" that
+> provides a patched cygwin1.dll object which changes some of the
+ [Cygwin `cygwin1.dll`] behaviors such that they make sense in the
+ context of a Windows application.
+ Cygwin executables do not have to be recompiled to use the Cygnal library.
+ They just have to be bundled with it; it is a drop-in replacement.
+
+For information regarding the "Cygwin Native Application Library", see the Cygnal project homepage [http://www.kylheku.com/cygnal/](https://web.archive.org/web/20210811182329im_/http://www.kylheku.com/cygnal/).
+
+The `..\bin\cygwin1.dll` is a renamed copy of the Cygnal DLL ([http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll](https://web.archive.org/web/20210817124227im_/http://www.kylheku.com/cygnal/cygwin1-3-1-98-64bit.dll), having SHA256 checksum 6929bf6781c322597584dcb71fbe36f836017a4704bcaad2ca5959b4aa390d30) provided for running these executables outside the context of Cygwin.  This version corresponds only to the `cygwin1.dll` from Cygwin 3.2.0, which is to say that it only works with executables linked against the Cygwin 3.2.0 `cygwin1.dll`.  Because this DLL is derived from the Cygwin DLL, it is licensed under [LGPLv3](https://www.gnu.org/licenses/lgpl-3.0-standalone.html), making it freely distributable with the license notice; see [https://cygwin.com/licensing.html](https://cygwin.com/licensing.html).
 
 # About `.\callcmd.c`
 
