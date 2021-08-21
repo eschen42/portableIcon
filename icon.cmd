@@ -38,7 +38,7 @@
   if "%ICN_FILE%" == "-" goto have_pipe
 
 :not_pipe
-  set ICX=%ICNSRCdps%%ICNSRCns%.exe
+  set ICX=%ICNSRCdps%%ICNSRCns%.bat
   if not exist "%ICNSRCdpnsx%" if not exist "%ICNSRCdpns%.icn" (
     echo.icon.cmd: No .icn file find among args:
     echo.    %*
@@ -52,18 +52,31 @@
   )
   set ICNSRCdpnsx="%ICNSRCdpnsx%"
   set ICX="%ICX%"
-  ( type %ICNSRCdpnsx% | call %ARG0%icont.cmd -o %ICX% -u -v0 %ICONT_ARGS% -
-  )&& if exist %ICX% ( %ARG0%bin\nticonx.exe %ICX% %ARGS% & del %ICX% ) else (echo %ARG0%: translation of %ICNSRCdpnsx% FAILED)
+  (
+    type %ICNSRCdpnsx% | call %ARG0%icont.cmd -o %ICX% -u -v0 %ICONT_ARGS% -
+  ) && if exist %ICX% (
+    call %ICX% %ARGS%
+    del %ICX%
+    if exist %ICX% echo icon.cmd: %ICX% still exists
+  ) else (echo %ARG0%: translation of %ICNSRCdpnsx% FAILED)
   :: double-ampersand means execute second command only if first command returns zero EXITCODE
   
   @echo off
   goto post_pipe
 
 :have_pipe
-  set ICX=%ICNSRCdps%pipe%RANDOM%.exe
+  set ICX=%ICNSRCdps%pipe%RANDOM%.bat
   set ICX="%ICX%"
-  (call %ARG0%icont.cmd -o %ICX% -u -v0 %ICONT_ARGS% -
-  )&& if exist %ICX% ( %ARG0%bin\nticonx.exe %ICX% %ARGS% & del %ICX% ) else (echo %ARG0%: translation of standard input FAILED)
+  (
+    call %ARG0%icont.cmd -o %ICX% -u -v0 %ICONT_ARGS% -
+  ) && if exist %ICX% (
+    :: echo running %ICX%
+    call %ICX% %ARGS%
+    del %ICX%
+    if exist %ICX% echo icon.cmd: %ICX% still exists
+  ) else (
+    echo %ARG0%: translation of standard input FAILED
+  )
 
 :post_pipe
   set EXIT_ERROR=%ERRORLEVEL%

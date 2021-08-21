@@ -1,5 +1,5 @@
-@ set ERRORLEVEL=&setlocal&echo off
-@ set SENTINEL=findstr& set PROMPT=running -$G &set ECHO_ON=off
+@ set ERRORLEVEL=& setlocal& set SENTINEL=findstr& set PROMPT=running -$G& set ECHO_ON=off
+@ echo %ECHO_ON%
 :: single-ampersand means execute second command regardless of EXITCODE from first command
 
 set EXIT_CODE=0
@@ -27,8 +27,8 @@ if %ERRORLEVEL% neq 0 (
 @echo -------  Test one   - Translate with default options [1] 1>&2
 @echo.
 set PROMPT=running one -$G
-@echo %ECHO_ON%
 (call "%~dp0..\icont.cmd" "%~dp0world.icn") >NUL 2>&1
+::@echo %ECHO_ON%
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=one translation
   call :fail_msg icont.cmd world.icn failed
@@ -52,26 +52,34 @@ del "%~dp0world.bat"
 @echo.
 set PROMPT=running two -$G
 @echo %ECHO_ON%
-call "%~dp0..\icont.cmd" -s -u -o "%~dp0mundo.exe" "%~dp0world.icn" 2>&1
+call "%~dp0..\icont.cmd" -s -u -o "%~dp0mundo.exe" --standalone "%~dp0world.icn" 2>&1
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=two translation
   call :fail_msg icont.cmd -o mundo.exe world.icn failed
   goto :farewell
 )
-call "%~dp0..\bin\smudge.cmd" "%~dp0mundo.exe" --standalone
-@ if %ERRORLEVEL% neq 0 (
-  set TEST_NAME=two smudge
-  call :fail_msg bin\smudge.cmd mundo.exe failed
+@if not exist "%~dp0mundo.bat" (
+  set TEST_NAME=two no icode
+  call :fail_msg icont -o did not produce expected icode .bat file
   goto :farewell
 )
 if not exist "%~dp0cygwin1.dll" echo cygwin1.dll required for standalone execution was not found
 if not exist "%~dp0nticonx.exe" echo nticonx.exe required for standalone execution was not found
+if not exist "%~dp0mundo.exe" echo icode .exe file was not produced implicitly by -o .exe
 @echo %ECHO_ON%
 call "%~dp0mundo.bat" one two
 @echo off
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=two execution
   call :fail_msg call mundo.bat failed
+  goto :farewell
+)
+if exist "%~dp0world.exe" del "%~dp0world.exe"
+call "%~dp0..\icont.cmd" -s -u --add-exe "%~dp0world.icn" 2>&1 >NUL
+@if not exist "%~dp0world.exe" (
+  dir
+  set TEST_NAME=two no added exe
+  call :fail_msg icont --add-exe did not produce expected stub .exe file
   goto :farewell
 )
 
@@ -155,12 +163,14 @@ setlocal
   call :fail_msg call icont.exe -o world.exe world.icn failed
   goto :farewell
 )
-call "%~dp0..\bin\smudge.cmd" "%~dp0world.exe"
-@ if %ERRORLEVEL% neq 0 (
-  set TEST_NAME=five smudge
-  call :fail_msg call bin\smudge.cmd world.exe failed
-  goto :farewell
-)
+:: dir world.*
+:: call "%~dp0..\bin\smudge.cmd" "%~dp0world.exe"
+:: @ if %ERRORLEVEL% neq 0 (
+::   set TEST_NAME=five smudge
+::   call :fail_msg call bin\smudge.cmd world.exe failed
+::   goto :farewell
+:: )
+:: dir world.*
 set PROMPT=running five -$G
 set OLD_PATH=%PATH%
 set PATH=%~dp0..;%PATH%
@@ -300,7 +310,8 @@ call %~dps0..\icont.cmd -v0 "%~dps0mio mundo.icn"&& call "%~dps0mio mundo.bat" n
 )
 if exist "%~dp0mio mundo.icn" del "%~dp0mio mundo.icn"
 if exist "%~dp0mio mundo.bat" del "%~dp0mio mundo.bat"
-@echo off
+@ echo %ECHO_ON%
+set EXIT_CODE=0
 
 goto farewell
 
@@ -309,15 +320,19 @@ goto farewell
 
 set EXIT_CODE=%ERRORLEVEL%
 echo %~n0 test %TEST_NAME% FAILED: %* 1>&2
+set EXIT_MSG=smoke test FAILED
+echo !!!!!  %EXIT_MSG%  !!!!!
+echo !!!!!  %EXIT_MSG%  !!!!! 1>&2
+
 goto :eof
 
 
 :farewell
 
-@echo.
-@echo -------  "Where there's smoke, there's fire." -Anonymous ---------
-@echo -------  "Where there's smoke, there's fire." -Anonymous --------- 1>&2
-
 popd
-if %EXIT_CODE% neq 0 echo %EXIT_MSG%
+
+@echo.
+if %EXIT_CODE% equ 0 @echo -------  "Where there's smoke, there's fire." -Anonymous ---------
+if %EXIT_CODE% equ 0 @echo -------  "Where there's smoke, there's fire." -Anonymous --------- 1>&2
+
 endlocal&exit /b %EXIT_CODE%

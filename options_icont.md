@@ -8,17 +8,16 @@ References:
   - GNU tar could not:
     - `tar (GNU tar) 1.12`
 
-## `bin\icont.exe` - Icon Translator
+## `bin\nticont.exe` - Icon Translator
 
 ```
-usage: icont [-cstuEIX] [-fs] [-e efile] [-o ofile] file ... [-x args]
+usage: icont [-cstuEIX] [-fs] [-o ofile] file ... [-x args]
 ```
 From `sed -n -e '/case/ {s/.*-/   -/; s/[*][\/]//; p}' tunix.c`:
 - `-c`: compile only (no linking)
   - Perform no linking, just produce `.u1` and `.u2` files
-- `-e file`: [undoc] redirect stderr
 - `-fs` or `-f s`: prevent removal of all unreferenced declarations
-  - same as putting "invocable all" in your program
+  - same as putting `invocable all` in your program
 - `-o file`: name output file
 - `-p`: enable icode profiling
 - `-s`: suppress informative messages (same as `-v 0`)
@@ -46,7 +45,7 @@ LPATH        none       search path for $include directives
 ```
 Search paths are blank-separated lists of directories. The current directory is searched before a search path is used.
 
-## `bin\iconx.exe` - Icon Interpreter
+## `bin\nticonx.exe` - Icon Interpreter
 
 ```
 usage: iconx icode-file-name [arguments for Icon program]
@@ -63,31 +62,4 @@ STRSIZE       500000    Initial size (bytes) of string region (strings).
 BLKSIZE       500000    Initial size (bytes) of block region (most objects).
 COEXPSIZE       2000    Size (long words) of co-expression blocks.
 MSTKSIZE       10000    Size (long words) of main interpreter stack.
-```
-
-```
-icon9.32_src/src$ grep -n "case '.':" icont/tmain.c 
-298:	 case '"': {
-607:         case 'C':			/* Ignore: compiler only */
-609:         case 'E':			/* -E: preprocess only */
-614:         case 'L':			/* -L: enable linker debugging */
-622:         case 'S':			/* -S */
-627:         case 'X':			/* -X */
-634:         case 'I':			/* -C */
-638:         case 'A':
-644:         case 'c':			/* -c: compile only (no linking) */
-647:         case 'e':			/* -e file: redirect stderr */
-650:         case 'f':			/* -f features: enable features */
-656:	 case 'i':                      /* -i: Don't create .EXE file */
-661:         case 'm':			/* -m: preprocess using m4(1) [UNIX] */
-664:         case 'n':			/* Ignore: compiler only */
-666:         case 'o':			/* -o file: name output file */
-670:         case 'p':			/* -p path: iconx path [ATARI] */
-679:	 case 'q':
-683:         case 'r':			/* Ignore: compiler only */
-685:         case 's':			/* -s: suppress informative messages */
-689:         case 't':			/* -t: turn on procedure tracing */
-692:         case 'u':			/* -u: warn about undeclared ids */
-695:         case 'v':			/* -v n: set verbosity level */
-702:         case 'x':			/* -x illegal until after file list */
 ```

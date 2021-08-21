@@ -1,11 +1,13 @@
-  @set ERRORLEVEL=&setlocal&echo off
+  @set ERRORLEVEL=&set EXIT_CODE=1&setlocal&set ECHO_ON=off
+  @echo %ECHO_ON%
 
   :: At least one argument is required
   set ARG1=&set ARG1=%1&set ARG1s=%~dpns1
+  if not defined ARG1 goto usage
+  set EXIT_CODE=0
   if /I ""%1"" == ""--help"" goto help
   if    ""%1"" == ""/?""     goto help
   if /I ""%1"" == ""-H""     goto help
-  if not defined ARG1 goto usage
 
   :: set ARGS and STANDALONE
   call :get_args %*
@@ -27,6 +29,8 @@
   if not defined LPATH set LPATH=%~dps0ipl\incl
   :: Return to working directory
   popd
+
+  :: echo %MYNTICONT% %ARGS% 1>&2
   :: Pass all arguments to the translator
   %MYNTICONT% %ARGS%
   set MY_RESULT=%ERRORLEVEL%
@@ -35,11 +39,20 @@
     shift
     if NOT .%1. == .. goto shift_loop
 
-  if not defined ICODE set ICODE="%ISRC:~1,-1%"
-  if ""%ISRC%"" == """-""" set ICODE="stdin"
-  :: @if exist "%ICODE:~1,-1%.exe" echo "%ICODE:~1,-1%.exe" exists
-  if not defined ICONT_NOSMUDGE if exist "%ICODE:~1,-1%.exe" (
-    call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%.exe" %STANDALONE% >NUL
+  if ""%ISRC%"" == """-""" (
+    set ICODE="stdin"
+    set ICODEx=.exe
+  )
+  if not defined ICODE (
+    set ICODE="%ISRC:~1,-1%"
+    set ICODEx=.exe
+  )
+  :: smudge if icode.exe exists
+  :: echo "%%ICODE:~1,-1%%%%ICODEx%%" is %ICODE:~1,-1%%ICODEx%
+  if not defined ICONT_NOSMUDGE if not exist "%ICODE:~1,-1%%ICODEx%" echo Does the directory for "%ICODE:~1,-1%%ICODEx%" exist?
+  if not defined ICONT_NOSMUDGE if exist "%ICODE:~1,-1%%ICODEx%" (
+    :: echo call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%%ICODEx%" %STANDALONE% %ADD_EXE% 1>&2
+    call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%%ICODEx%" %STANDALONE% %ADD_EXE%
   )
   :: Produce result returned by translator
   exit /b %MY_RESULT%
@@ -62,21 +75,49 @@ set ISRC=
 :: shift till last arg is %0
 set ARG=%0
 if not defined ARG goto got_args
-:more_args
-  if not ""%ARG%"" == """%ARG:~1,-1%""" if %ARG% == --standalone goto standalone
+  :more_args
+    if not ""%ARG%"" == """%ARG:~1,-1%""" (
+      if %ARG% == --standalone goto standalone
+      if %ARG% == --add-exe goto add_exe
+    )
     set ARGS=%ARGS% %ARG%
+    set LAST_ARG=%0
+    if not defined ISRC if exist %~dpns0.icn set ISRC="%~n0"
+    goto shift_args
+  :add_exe
+    set ADD_EXE=--add-exe
     goto shift_args
   :standalone
     set STANDALONE=--standalone
+    goto shift_args
   :shift_args
-  set LAST_ARG=%0
-  set ISRC="%~n0"
-  shift
-  set ARG=%0
-  if ""-o"" == ""%LAST_ARG%"" set ICODE=%~dpn0
-  if not defined ARG goto got_args
-  goto more_args
+    shift
+    set ARG=%0
+    set ARGx=%~xs0
+    if ""-o"" == ""%LAST_ARG%"" (
+      set ICODE="%~dpn0"
+      set ICODEx=%ARGx%
+      if "%ARGx%" == "" (
+        set ICODEx=.exe
+        set ADD_EXE=--add-exe
+      )
+      if /i "%ARGx%" == ".exe" set ADD_EXE=--add-exe
+      if /i "%ARGx%" == ".bat" set ARG=%~dpn0
+    )
+    if not defined ARG goto got_args
+    goto more_args
 :got_args
+  :: Note this quirk: setting ICODEx to .exe does NOT result in
+  ::   invocation of smudge with --add-exe, which is correct
+  ::   but may be unexpected.
+  if /i "%ICODEx%" == ".bat" set ICODEx=.exe
+  echo %ECHO_ON%
+  :: echo ARGS=%ARGS% 1>&2
+  :: echo ISRC=%ISRC% 1>&2
+  :: echo ICODE=%ICODE% 1>&2
+  :: echo ICODEx=%ICODEx% 1>&2
+  :: echo STANDALONE=%STANDALONE% 1>&2
+  :: echo ADD_EXE=%ADD_EXE% 1>&2
 goto :eof
 ::::::::::::::::::::::::::: :get_args subroutine ::::::::::::::::::::::::::::
 
@@ -112,25 +153,29 @@ goto :eof
   @goto :EOF
 ::::::::::::::::::::::::: end :heredoc subroutine ::::::::::::::::::::::::::
 
-
 :usage
-
+  set EXIT_CODE=1
   if defined ARG1 echo %~nxs0 %*
+  if not defined ARG1 (
+    echo.
+    echo.%~nxs0: at least one argument is required
+  )
 
 :help
   set NX0=%~nx0
   set DP0=%~dp0
   set DPNX0=%~dpnx0
   call :heredoc :post_usage & goto :post_usage
+-------------------------------------------------------------------------------
+# icont usage
 
-
-usage: !NX0! [-cpstuEV] [-fs] [-e efile] [-o ofile] file
+usage: !NX0! [-cpstuEV] [-fs] [-o ofile] [--add-exe] [--standalone] file[.icn]
    -c   Perform no linking, just produce `.u1` and `.u2` files.
-   -e   Redirect standard error [for execution] to efile.
    -fs  Prevent removal of all unreferenced declarations.
-        This has the same effect as "invocable all" in the program.
-   -o   Name for output file.  Without -o, !NX0! defaults creates
-          file.bat
+        This has the same effect as `invocable all` in the program.
+   -o   Name for output file:
+          - If `-o` is unspecified, `-o file.bat` is implied.
+          - If `ofile` has extension `.exe`, `--add-exe` is implied.
    -p   enable icode profiling
    -s   Suppress informative messages.
    -t   Turn on procedure tracing.
@@ -143,21 +188,27 @@ usage: !NX0! [-cpstuEV] [-fs] [-e efile] [-o ofile] file
           n = 3 - also list discarded globals
    -E   Preprocess only. [This can be very helpful when debugging.]
    -V   print version information
-
    --standalone
         Copy nticonx.exe and cygwin1.dll to directory having .bat file.
- 
-When !NX0! creates an .exe file:
-   - It is likely that:
-     + either, you will want to invoke the interpreter directly with
-         !DP0!iconx.cmd file.exe
-     + or you may want to run
-         !DP0!bin\smudge.cmd file.exe
-       to produce file.bat, but remember to 
-         call file.bat
-       from batch files so that control will return to the calling
-       script when file.bat exits.
+   --add-exe
+        (Implied when ofile name ends with `.exe`)
+        Create an `ofile.exe` file that invokes `ofile.bat`.
+        This passes all arguments through, but it works only when
+        `ofile.exe` and `ofile.bat` are in the same directory.
  
 You can find !NX0! at !DPNX0!
 
+Environmental variables recognized by !NX0!
+
+Name         Default    Description
+--------     -------    -----------------------
+IPATH        none       search path for link directives
+LPATH        none       search path for $include directives
+
+Search paths are blank-separated lists of directories.
+The current directory is searched before a search path is used.
+-------------------------------------------------------------------------------
+
 :post_usage
+
+exit /b %EXIT_CODE%
