@@ -5,9 +5,12 @@
   set ARG1=&set ARG1=%1&set ARG1s=%~dpns1
   if not defined ARG1 goto usage
   set EXIT_CODE=0
+  set REQUEST_VERSION=
   if /I ""%1"" == ""--help"" goto help
   if    ""%1"" == ""/?""     goto help
   if /I ""%1"" == ""-H""     goto help
+  set ARG2=%2
+  if /I ""%1"" == ""-V""     if not defined ARG2 set REQUEST_VERSION=1
 
   :: set ARGS and STANDALONE
   call :get_args %*
@@ -33,6 +36,7 @@
   :: echo %MYNTICONT% %ARGS% 1>&2
   :: Pass all arguments to the translator
   %MYNTICONT% %ARGS%
+  if defined REQUEST_VERSION exit /b 0 
   set MY_RESULT=%ERRORLEVEL%
 
 :shift_loop
