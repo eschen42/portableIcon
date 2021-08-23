@@ -26,16 +26,16 @@ if %ERRORLEVEL% neq 0 (
 @echo -------  Test one   - Translate with default options [1]  ---------
 @echo -------  Test one   - Translate with default options [1] 1>&2
 @echo.
+
 set PROMPT=running one -$G
 (call "%~dp0..\icont.cmd" "%~dp0world.icn") >NUL 2>&1
-::@echo %ECHO_ON%
+
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=one translation
   call :fail_msg icont.cmd world.icn failed
   goto :farewell
 )
 
-@echo %ECHO_ON%
 call "%~dp0world.bat" one
 @echo off
 @ if %ERRORLEVEL% neq 0 (
@@ -50,28 +50,29 @@ del "%~dp0world.bat"
 @echo -------  Test two   - Translate with custom options [2]  ---------
 @echo -------  Test two   - Translate with custom options [2] 1>&2
 @echo.
+
 set PROMPT=running two -$G
 @echo %ECHO_ON%
-call "%~dp0..\icont.cmd" -s -u -o "%~dp0mundo.exe" --standalone "%~dp0world.icn" 2>&1
+call "%~dp0..\icont.cmd" -s -u -o "%~dp0Welt.exe" --standalone "%~dp0world.icn" 2>&1
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=two translation
-  call :fail_msg icont.cmd -o mundo.exe world.icn failed
+  call :fail_msg icont.cmd -o Welt.exe world.icn failed
   goto :farewell
 )
-@if not exist "%~dp0mundo.bat" (
+@if not exist "%~dp0Welt.bat" (
   set TEST_NAME=two no icode
   call :fail_msg icont -o did not produce expected icode .bat file
   goto :farewell
 )
 if not exist "%~dp0cygwin1.dll" echo cygwin1.dll required for standalone execution was not found
 if not exist "%~dp0nticonx.exe" echo nticonx.exe required for standalone execution was not found
-if not exist "%~dp0mundo.exe" echo icode .exe file was not produced implicitly by -o .exe
+if not exist "%~dp0Welt.exe" echo icode .exe file was not produced implicitly by -o .exe
 @echo %ECHO_ON%
-call "%~dp0mundo.bat" one two
+call "%~dp0Welt.bat" one two
 @echo off
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=two execution
-  call :fail_msg call mundo.bat failed
+  call :fail_msg call Welt.bat failed
   goto :farewell
 )
 if exist "%~dp0world.exe" del "%~dp0world.exe"
@@ -86,12 +87,13 @@ call "%~dp0..\icont.cmd" -s -u --add-exe "%~dp0world.icn" 2>&1 >NUL
 :: prep for next test
 if exist "%~dp0cygwin1.dll" del "%~dp0cygwin1.dll"
 if exist "%~dp0nticonx.exe" del "%~dp0nticonx.exe"
-if exist "%~dp0mundo.bat" del "%~dp0mundo.bat"
+if exist "%~dp0Welt.bat" del "%~dp0Welt.bat"
 if exist "%~dp0world.icn" del "%~dp0world.icn"
 @echo.
 @echo -------  Test three - Translate from within a script and run [3]  ---------
 @echo -------  Test three - Translate from within a script and run [3] 1>&2
 @echo.
+
 set PROMPT=running three -$G
 :: It is imperative that you use "call";
 ::   otherwise, the rest of the script is ignored.
@@ -110,6 +112,7 @@ findstr /v "%SENTINEL%" example_stdin.cmd > world.icn
 @echo -------  Test four  - Explicity run the Icon Virtual Machine [4]  ---------
 @echo -------  Test four  - Explicity run the Icon Virtual Machine [4] 1>&2
 @echo.
+
 set PROMPT=running four -$G
 @echo. 4a. Invoke the Icon translator explicitly
 @echo %ECHO_ON%
@@ -157,6 +160,7 @@ setlocal
 @echo -------  Test five  - Implicity run the Icon Virtual Machine using CMD [5]  ---------
 @echo -------  Test five  - Implicity run the Icon Virtual Machine using CMD [5] 1>&2
 @echo.
+
 "%~dp0..\icont.exe" -s -u -o "%~dp0world.exe" "%~dp0world.icn"
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=five translation
@@ -187,6 +191,7 @@ cmd /c ^""%~dp0world.bat" one two three four five^"
 @echo -------  Test six   - Implicity run the Icon Virtual Machine in the background using START [6]  ---------
 @echo -------  Test six   - Implicity run the Icon Virtual Machine in the background using START [6] 1>&2
 @echo.
+
 set PROMPT=running six -$G
 @echo %ECHO_ON%
 start "demo start" /b "%windir%\system32\cmd.exe" /c ""%~dp0world.bat" one two three four five six^"
@@ -300,18 +305,60 @@ type "%~dp0world.icn" | %~dps0..\icon.cmd - nine "with Icon source from stdin" h
 )
 @echo.
 @echo. 9d. Invoke the icont.cmd [not icono.cmd] script with spaces in file name
-copy "%~dp0world.icn" "%~dp0mio mundo.icn" >NUL
+copy "%~dp0world.icn" "%~dp0meine Welt.icn" >NUL
 :: double-ampersand means execute second command only if first command returns zero EXITCODE
-call %~dps0..\icont.cmd -v0 "%~dps0mio mundo.icn"&& call "%~dps0mio mundo.bat" nine "via icont.cmd (rather than icon.cmd)" hello world
+call %~dps0..\icont.cmd -v0 "%~dps0meine Welt.icn"&& call "%~dps0meine Welt.bat" nine "via icont.cmd (rather than icon.cmd)" hello world
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=nine d. translation and execution
   call :fail_msg call icon quoted script with spaces in name failed
   goto :farewell
 )
-if exist "%~dp0mio mundo.icn" del "%~dp0mio mundo.icn"
-if exist "%~dp0mio mundo.bat" del "%~dp0mio mundo.bat"
+if exist "%~dp0meine Welt.icn" del "%~dp0meine Welt.icn"
+if exist "%~dp0meine Welt.bat" del "%~dp0meine Welt.bat"
 @ echo %ECHO_ON%
-set EXIT_CODE=0
+
+@echo.
+@echo -------  Test ten   - preprocessing and ucode example [10]  ---------
+@echo -------  Test ten   - preprocessing and ucode example [10] 1>&2
+@echo.
+
+set PROMPT=running ten -$G
+
+:: display the two .icn files by preprocessing them
+(call "%~dp0..\icont.cmd" -E "%~dp0mundo.icn" 2>&1)| findstr /v "#line errors mundo.icn"
+(call "%~dp0..\icont.cmd" -E "%~dp0luna.icn"  2>&1)| findstr /v "#line errors luna.icn"
+
+:: create ucode for luna.icn (translate but do not link)
+(call "%~dp0..\icont.cmd" -c "%~dp0luna.icn") >NUL 2>&1
+@ if %ERRORLEVEL% neq 0 (
+  set TEST_NAME=ten luna translation
+  call :fail_msg icont.cmd -c luna.icn failed
+  goto :farewell
+)
+
+:: move luna.* to moon.* to ensure that luna.icn is not translated by accident
+if exist "%~dp0moon.u1" del /q "%~dp0moon.u1"
+if exist "%~dp0moon.u2" del /q "%~dp0moon.u2"
+rename "%~dp0luna.u1" moon.u1
+rename "%~dp0luna.u2" moon.u2
+(call "%~dp0..\icont.cmd" -o world "%~dp0mundo.icn" "%~dp0moon.u1" "%~dp0moon.u2") >NUL 2>&1
+
+@ if %ERRORLEVEL% neq 0 (
+  set TEST_NAME=ten mundo translation
+  call :fail_msg icont.cmd -o world.exe mundo.icn moon.u1 moon.u2 failed
+  goto :farewell
+)
+
+call "%~dp0world.exe" ten cent store
+
+@ if %ERRORLEVEL% neq 0 (
+  set TEST_NAME=ten execution
+  call :fail_msg call world.exe failed
+  goto :farewell
+)
+
+del "%~dp0world.bat"
+del "%~dp0world.exe"
 
 goto farewell
 

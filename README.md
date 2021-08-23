@@ -1,16 +1,31 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5201698.svg)](https://doi.org/10.5281/zenodo.5201698)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5201698.svg)
+](https://doi.org/10.5281/zenodo.5201698)
 
-# Portable Icon 9.5.2
+# Portable Icon 9.5.2 for Windows
 
 ## Quick start (TL;DR)
 
-1. Create an Icon program, `world.icn`
-   - e.g., `copy examples\example_shebang.cmd world.icn`
+1. Install portableIcon
+   - either by downloading unzipping the zip from GitHub
+   - or by
+     <br />&nbsp;&nbsp;`conda install -c eschen42 icon`
+     <br />&nbsp;&nbsp;`conda activate icon`
+1. Create an Icon program, `world.icn`, e.g.:
+   <br />&nbsp;&nbsp;`echo procedure main^(^)^; every write^(^&features^)^; end > world.icn`
 1. Translate and run in separate steps:
-   1. Translate world.icn with<br />`path\to\icont world`
-   1. Run the program with<br />`world`
-1. Translate and run the program in a single step with<br />`icon world.icn`
-1. Run an example script that contains a Icon program<br />`examples\example_shebang.cmd`
+   1. Translate `world.icn` into `world.bat` (which contains the translated program) with
+      <br />&nbsp;&nbsp;`path\to\icont world`
+      <br />or put the directory containing `icont.cmd` on your PATH and run
+      <br />&nbsp;&nbsp;`icont world`
+   1. Run the program with
+      <br />&nbsp;&nbsp;`world`
+1. Translate and run the program in a single step with
+   <br />&nbsp;&nbsp;`icon world.icn`
+1. Run an example script that contains a Icon program
+   <br />&nbsp;&nbsp;`examples\example_shebang.cmd`
+1. Put the translated program and the files needed to run it into a directory
+   that can be copied to another to run it without installing portableIcon
+   <br />&nbsp;&nbsp;`icon --standalone -o E:\lse\where\world.exe world.icn`
 
 ## Introduction
 
@@ -20,7 +35,8 @@ a high-level, general-purpose programming language that is in
 the public domain.  Icon programs translated by the Icon translator
 ("icont") can be run by the Icon runtime interpreter ("iconx").
 
-Frequently, Icon can be an expressive and enjoyable way to write software.  You might find it helpful to copy the framework for writing and
+Frequently, Icon can be an expressive and enjoyable way to write software.
+You might find it helpful to copy the framework for writing and
 running Icon programs to your home directory.
 
 This repository provides is a small, portable collection of binary
@@ -42,8 +58,19 @@ Cygwin as described in
 [the `README.md` file in the `src` directory](./src/README.md).
 (These were compiled without support for the Icon graphical interface,
 and they differ from
-[the build of Icon for Windows (from 2015)](https://www2.cs.arizona.edu/icon/v95w.htm),
+[the build of Icon for Windows (from 2015)](
+https://www2.cs.arizona.edu/icon/v95w.htm),
 for which source code is not presently available.)
+
+## Installing portableIcon
+
+You can download a zip file from [https://github.com/eschen42/portableIcon/releases](
+https://github.com/eschen42/portableIcon/releases) and (ideally) putting the
+unzipped directory onto your PATH.
+
+Alternatively, if you are using the conda package manager, you can
+     <br />&nbsp;&nbsp;`conda install -c eschen42 icon`
+     <br />&nbsp;&nbsp;`conda activate icon`
 
 ## Examples
 
@@ -58,7 +85,8 @@ of the program into icode and [some code to search for the Icon runtime
 
 The output produced by `icont.cmd` can be adjusted several ways:
 
-- To create `world.bat` (a batch file that includes the icode as described immediately above):
+- To create `world.bat` (a batch file that includes the icode as described
+  immediately above):
   <br />&nbsp;&nbsp;`icont world.icn`
   - To run this from within a batch file, you must use the `call` syntax:<br />
    &nbsp;&nbsp;`call world`
@@ -104,9 +132,12 @@ The output produced by `icont.cmd` can be adjusted several ways:
 The `.bat` file produced by `icont.cmd` includes code to search for the
 Icon runtime interpreter (`iconx`); the search order is:
 
-1. the value to which the `ICONX` environment variable is set, which, if it is set, should be the full path to a copy of `bin\nticonx.exe`;
+1. the value to which the `ICONX` environment variable is set, which,
+   if it is set, should be the full path to a copy of `bin\nticonx.exe`;
 1. a file named `nticonx.exe` in the same directory as the `.bat` file;
-1. a file named `nticonx.exe` in the directory where the translator (`nticont.exe`) was located when it translated the program (assuming that it has not moved);
+1. a file named `nticonx.exe` in the directory where the translator
+   (`nticont.exe`) was located when it translated the program (assuming that it
+   has not been moved);
 1. a file named `nticonx.exe` on the `PATH`.
 
 ## Files in this repository
@@ -116,7 +147,8 @@ Icon runtime interpreter (`iconx`); the search order is:
 - `icont.cmd`
   - This is a "convenience script" for invoking `bin\nticont.exe`:
     - Run `icont.cmd` without any arguments for a list of options.
-  - This script passes all arguments through to `bin\nticont.exe` (the actual translator) *after* it:
+  - This script passes all arguments through to `bin\nticont.exe` (the actual
+    translator) *after* it:
     - ensures that the IPATH environmental variable points to the working
       directory and `ipl/procs` unless IPATH is already set:
       - Because spaces are the separator between directories specified in
@@ -126,7 +158,8 @@ Icon runtime interpreter (`iconx`); the search order is:
           of the directories when it composes IPATH
       - IPATH is only used at translation time.
       - When setting IPATH yourself, use
-        ["short file names"](https://en.wikipedia.org/wiki/8.3_filename#Working_with_short_filenames_in_a_command_prompt).
+        ["short file names"](
+        https://en.wikipedia.org/wiki/8.3_filename#Working_with_short_filenames_in_a_command_prompt).
         - You can discover them using `dir /x`.
     - ensures that the LPATH environmental variable points to the working
       directory and `ipl/incl` unless LPATH is already set;
@@ -134,7 +167,8 @@ Icon runtime interpreter (`iconx`); the search order is:
     - invokes `bin\smudge` to present the resulting icode files as described
       in ["Examples"](#examples) above.
   - The resulting `.bat` file can be executed anywhere on the machine
-    so long as the path to the `bin` directory does not change, as described in ["Examples"](#examples) above.
+    so long as the path to the `bin` directory does not change, as described
+    in ["Examples"](#examples) above.
 - `icont.exe`
   - This is a "convenience program" that calls `icont.cmd`, passing all of
     its arguments through to `icont.cmd`.
@@ -165,7 +199,8 @@ Icon runtime interpreter (`iconx`); the search order is:
   - usage: `icon [options for icont] [program.icn or -] [args]`
     - Note that passing options of icont is an extension that is not allowed
       on the Unix builds of Icon.
-  - ["Shebang - scripting with Icon"](#shebang---scripting-with-icon) makes use of this script.
+  - ["Shebang - scripting with Icon"](#shebang---scripting-with-icon) makes use
+    of this script.
     - To support this, no matching `icon.exe` program is included.
   - See smoke test 9 in `examples\smoke_test.cmd`.
 - `#!icon.cmd`
@@ -180,7 +215,8 @@ Icon runtime interpreter (`iconx`); the search order is:
 - `examples\smoke_test.cmd`
   - This demonstrates use of most of the files in the repository
     (at the top level and within `examples`).
-  - See [`examples\smoke_test.output.expected.txt`](./examples/smoke_test.output.expected.txt)
+  - See [`examples\smoke_test.output.expected.txt`](
+    ./examples/smoke_test.output.expected.txt)
     for the expected output.
   - Admittedly, it isn't highly readable.
 - `examples\run_smoke_test.cmd`
@@ -213,7 +249,8 @@ to interact with them directly.
     may be passed for `nticont` and the environment variables that may
     be set for running the translated program.
     - This is drawn from
-     [the `icont` reference material](https://cs.arizona.edu/icon/refernce/icontx.htm#icont).
+     [the `icont` reference material](
+     https://cs.arizona.edu/icon/refernce/icontx.htm#icont).
 - `bin\nticonx.exe`
   - This is the actual Icon interpreter, which executes "icode".
   - See `iconx.*` for a convenient way to invoke this indirectly.
@@ -235,7 +272,8 @@ to interact with them directly.
       i.e., the `PATH` environmental variable.
 - `bin\cygwin1.dll` is a the Cygnal patch of the `cygwin1.dll` from
    Cygwin 3.2.0.
-  - This file comes from the Cygnal project ([http://www.kylheku.com/cygnal/](https://web.archive.org/web/20210811182329im_/http://www.kylheku.com/cygnal/)).
+  - This file comes from the Cygnal project ([http://www.kylheku.com/cygnal/](
+    https://web.archive.org/web/20210811182329im_/http://www.kylheku.com/cygnal/)).
   - See [src\README.md](./src/README.md#about-bin-and-iconconfigcygwin_portable)
     for further information.
 
@@ -260,10 +298,11 @@ For this to work:
   must pass control to the `#!icon.cmd` script in the directory containing
   `icon.cmd`.
   - `examples\#!icon.cmd` does this.
-  - a minimally dependent example (not dependent on `examples\#!icon.cmd`) would be:<br />
+  - a minimally dependent example (not dependent on `examples\#!icon.cmd`)
+    would be:<br />
     `mkdir elsewhere`<br />
     `copy examples\example_shebang.cmd elsewhere\`<br />
-    `cmd /c "set PATH=.;c:\windows\system32& elsewhere\example_shebang.cmd foo bar"`<br />
+    `cmd /c "set PATH=.;c:\windows\system32& elsewhere\example_shebang.cmd foo bar"`
 - I don't have to have `C:\Users\eschen42\portableIcon\#!icon.cmd`
   on my PATH *per se*, as long as I have another (trivial) script on my path
   named `#!icon.cmd` that contains one line, e.g.:
@@ -275,8 +314,10 @@ See test 8 in `smoke_test.cmd`.
 
 - I have not found a way to express an IPATH or LPATH that has
   directories that themselves include spaces, except by using
-  ["8.3" filenames](https://en.wikipedia.org/wiki/8.3_filename#Working_with_short_filenames_in_a_command_prompt).
-- `bin\nticont.exe` and `bin\nticonx.exe` must be invoked with a relative or absolute path, i.e., the<br />
+  ["8.3" filenames](
+  https://en.wikipedia.org/wiki/8.3_filename#Working_with_short_filenames_in_a_command_prompt).
+- `bin\nticont.exe` and `bin\nticonx.exe` must be invoked with a relative or
+  absolute path, i.e., the<br />
   &nbsp;&nbsp;`nticont.exe`<br />
   invocation fails from within the `bin` directory, but<br />
   &nbsp;&nbsp;`.\nticont.exe`<br />
@@ -288,9 +329,11 @@ A portable version of Icon 9.3.2 is available on the `icon_v9.3.2` branch:
 
 - That version can be used to create single-file, stand-alone binaries.
 - A release of that version is available at
-  [https://github.com/eschen42/portableIcon/releases/tag/v9.3.2_rc1](https://github.com/eschen42/portableIcon/releases/tag/v9.3.2_rc1).
+  [https://github.com/eschen42/portableIcon/releases/tag/v9.3.2_rc1](
+  https://github.com/eschen42/portableIcon/releases/tag/v9.3.2_rc1).
 - For a description, see
-  [https://github.com/eschen42/portableIcon/tree/icon_v9.3.2](https://github.com/eschen42/portableIcon/tree/icon_v9.3.2)
+  [https://github.com/eschen42/portableIcon/tree/icon_v9.3.2](
+  https://github.com/eschen42/portableIcon/tree/icon_v9.3.2)
 
 # Unicon
 

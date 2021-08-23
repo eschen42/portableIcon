@@ -1,0 +1,7 @@
+
+# luna.icn has the Icon procedure to be translated to ucode
+
+procedure luna()
+  every write(&features)
+end
+

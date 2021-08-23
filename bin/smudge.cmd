@@ -1,4 +1,4 @@
-  @set ERRORLEVEL=&set EXIT_CODE=1&setlocal&set ECHO_ON=off
+  @set ERRORLEVEL=&setlocal&set EXIT_CODE=1&set ECHO_ON=off
   @echo %ECHO_ON%
 
   :: At least one argument is required

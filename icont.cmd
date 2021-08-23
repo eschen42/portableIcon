@@ -1,11 +1,14 @@
-  @set ERRORLEVEL=&set EXIT_CODE=1&setlocal&set ECHO_ON=off
+  @set ERRORLEVEL=&setlocal&set EXIT_CODE=1&set ECHO_ON=off
   @echo %ECHO_ON%
 
   :: At least one argument is required
   set ARG1=&set ARG1=%1&set ARG1s=%~dpns1
   if not defined ARG1 goto usage
   set EXIT_CODE=0
-  set REQUEST_VERSION=
+  set REQUEST_VERSION=0
+  set DASH_C=0
+  set DASH_E=0
+  set DASH_O=
   if /I ""%1"" == ""--help"" goto help
   if    ""%1"" == ""/?""     goto help
   if /I ""%1"" == ""-H""     goto help
@@ -14,6 +17,11 @@
 
   :: set ARGS and STANDALONE
   call :get_args %*
+  if "%DASH_O%%DASH_C%" == "11" (
+    echo.%~nxs0: options `-o` and `-c` are incompatible
+    echo.
+    goto usage
+  )
 
   :: *Before* changing to the directory with the translator,
   ::   set ME_FIRST to the current working directory.
@@ -36,7 +44,9 @@
   :: echo %MYNTICONT% %ARGS% 1>&2
   :: Pass all arguments to the translator
   %MYNTICONT% %ARGS%
-  if defined REQUEST_VERSION exit /b 0 
+  if "%DASH_C%" == "1" exit /b %ERRORLEVEL%
+  if "%DASH_E%" == "1" exit /b %ERRORLEVEL%
+  if "%REQUEST_VERSION%" == "1" exit /b 0
   set MY_RESULT=%ERRORLEVEL%
 
 :shift_loop
@@ -80,6 +90,8 @@ set ISRC=
 set ARG=%0
 if not defined ARG goto got_args
   :more_args
+    if ""-c"" == ""%ARG%"" set DASH_C=1
+    if ""-E"" == ""%ARG%"" set DASH_E=1
     if not ""%ARG%"" == """%ARG:~1,-1%""" (
       if %ARG% == --standalone goto standalone
       if %ARG% == --add-exe goto add_exe
@@ -87,6 +99,8 @@ if not defined ARG goto got_args
     set ARGS=%ARGS% %ARG%
     set LAST_ARG=%0
     if not defined ISRC if exist %~dpns0.icn set ISRC="%~n0"
+    if not defined ISRC if exist %~dpns0.u1  set ISRC="%~n0"
+    if not defined ISRC if exist %~dpns0.u2  set ISRC="%~n0"
     goto shift_args
   :add_exe
     set ADD_EXE=--add-exe
@@ -99,6 +113,7 @@ if not defined ARG goto got_args
     set ARG=%0
     set ARGx=%~xs0
     if ""-o"" == ""%LAST_ARG%"" (
+      set DASH_O=1
       set ICODE="%~dpn0"
       set ICODEx=%ARGx%
       if "%ARGx%" == "" (
@@ -115,7 +130,7 @@ if not defined ARG goto got_args
   ::   invocation of smudge with --add-exe, which is correct
   ::   but may be unexpected.
   if /i "%ICODEx%" == ".bat" set ICODEx=.exe
-  echo %ECHO_ON%
+  @echo %ECHO_ON%
   :: echo ARGS=%ARGS% 1>&2
   :: echo ISRC=%ISRC% 1>&2
   :: echo ICODE=%ICODE% 1>&2
@@ -171,14 +186,18 @@ goto :eof
   set DPNX0=%~dpnx0
   call :heredoc :post_usage & goto :post_usage
 -------------------------------------------------------------------------------
-# icont usage
+# icont usage:
+!NX0! [-cpstuEV] [-fs] [-o ofile] [--add-exe] [--standalone] file [files]
+   where file(s) may have extensions `.icn`, `.u1`, or `.u2`; no extension
+   implies `.icn`.
 
-usage: !NX0! [-cpstuEV] [-fs] [-o ofile] [--add-exe] [--standalone] file[.icn]
    -c   Perform no linking, just produce `.u1` and `.u2` files.
+          - This is incompatible with `-o`.
    -fs  Prevent removal of all unreferenced declarations.
         This has the same effect as `invocable all` in the program.
    -o   Name for output file:
-          - If `-o` is unspecified, `-o file.bat` is implied.
+          - This is incompatible with `-c`.
+          - If `-c` and `-o` are unspecified, `-o file.bat` is implied.
           - If `ofile` has extension `.exe`, `--add-exe` is implied.
    -p   enable icode profiling
    -s   Suppress informative messages.
@@ -190,7 +209,9 @@ usage: !NX0! [-cpstuEV] [-fs] [-o ofile] [--add-exe] [--standalone] file[.icn]
           n = 2 - also report the sizes of icode sections
                   [procedures, strings, and so forth]
           n = 3 - also list discarded globals
-   -E   Preprocess only. [This can be very helpful when debugging.]
+   -E   Preprocess only (send preprocessing results to standard output and
+        perform no subsequent steps. [This can be very helpful when debugging.]
+          - This makes other options moot.
    -V   print version information
    --standalone
         Copy nticonx.exe and cygwin1.dll to directory having .bat file.
@@ -199,7 +220,7 @@ usage: !NX0! [-cpstuEV] [-fs] [-o ofile] [--add-exe] [--standalone] file[.icn]
         Create an `ofile.exe` file that invokes `ofile.bat`.
         This passes all arguments through, but it works only when
         `ofile.exe` and `ofile.bat` are in the same directory.
- 
+
 You can find !NX0! at !DPNX0!
 
 Environmental variables recognized by !NX0!

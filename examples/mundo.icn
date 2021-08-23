@@ -1,0 +1,10 @@
+
+# mundo.icn is the Icon program that depends on luna.icn for luna()
+
+procedure main(args)
+  write("There are ", *args, " args")
+  every write(!args)
+  luna()
+  write(&version)
+end
+

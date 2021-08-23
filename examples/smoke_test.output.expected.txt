@@ -280,4 +280,38 @@ pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
 
+-------  Test ten   - preprocessing and ucode example [10]  ---------
+
+
+
+procedure main(args)
+  write("There are ", *args, " args")
+  every write(!args)
+  luna()
+  write(&version)
+end
+
+
+
+procedure luna()
+  every write(&features)
+end
+
+There are 3 args
+ten
+cent
+store
+MS Windows
+Cygwin
+ASCII
+co-expressions
+dynamic loading
+environment variables
+external values
+keyboard functions
+large integers
+pipes
+system function
+Icon Version 9.5.21b, July 21, 2021
+
 -------  "Where there's smoke, there's fire." -Anonymous ---------
