@@ -4,9 +4,10 @@ pushd %~dps0
 set ZIPDIR=%CD:\=/%
 set CONDA_BUILD=0
 set RELEASE_TAG=v9.5.2_conda_%CONDA_BUILD%_rev4
+:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{sha}.zip
 set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
 set RELEASE_URL=https://github.com/eschen42/portableIcon/releases/tag/%RELEASE_TAG%
-curl -L -o portableIcon-master.zip https://github.com/eschen42/portableIcon/archive/refs/tags/v9.5.2_conda_%CONDA_BUILD%_rev4.zip || (
+curl -L -o portableIcon-master.zip %RELEASE_ZIP% || (
   echo.zip download failed.
   echo.  If this is surprising, be sure that you have installed curl.
   popd
