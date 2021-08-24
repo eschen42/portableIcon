@@ -9,7 +9,18 @@ set RELEASE_TAG=v9.5.2_conda_%BUILD_NUMBER%_%SOURCE_REVISION%
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/f40d42bb986b75f5be9c249662804e6dc8f19a9f.zip
 set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
 set RELEASE_URL=https://github.com/eschen42/portableIcon/releases/tag/%RELEASE_TAG%
-curl -L -o portableIcon-master.zip %RELEASE_ZIP% || (
+if exist portableIcon-curl.zip (
+  echo deleting previously existing portableIcon-curl.zip
+  del portableIcon-curl.zip
+  :: sleep 1 second
+  ping -n 2 127.0.0.1 >NUL
+)
+if exist portableIcon-curl.zip (
+  echo failed to delete existing portableIcon-curl.zip
+  popd
+  exit /b 1
+)
+curl -L -o portableIcon-curl.zip %RELEASE_ZIP% || (
   echo.zip download failed.
   echo.  If this is surprising, be sure that you have installed curl.
   popd
@@ -67,15 +78,30 @@ exit /b %ERRORLEVEL%
 
 :::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
 call :heredoc :ENV_ACTIVATE_BAT > recipe\env_activate.bat && goto :ENV_ACTIVATE_BAT || goto :HERE_ERROR
-set OLD_IPL=%IPL%
-set IPL=%CONDA_PREFIX%\Library\usr\bin\ipl
+@set OLD_IPL=%IPL%
+@set IPL=%CONDA_PREFIX%\Library\usr\bin\ipl
+@echo.
+@echo.For info regarding the Icon programming language, please see
+@echo.  https://www.cs.arizona.edu/icon
+@echo.
+@echo.For info regarding this build of Icon for Microsoft Windows, please see
+@echo.  https://github.com/eschen42/portableIcon
+@echo.
+@echo.The Icon Programing Library is at %IPL%
+@echo.
+@echo.For offline help, try these:
+@echo.  icont --help
+@echo.  iconx --help
+@echo.  icon --help
+
+
 :ENV_ACTIVATE_BAT
 :::::::::::::::::::::::::::: END INLINE TEXT  ::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
 call :heredoc :ENV_DEACTIVATE_BAT > recipe\env_deactivate.bat && goto :ENV_DEACTIVATE_BAT || goto :HERE_ERROR
-set IPL=%OLD_IPL%
-set OLD_IPL=
+@set IPL=%OLD_IPL%
+@set OLD_IPL=
 :ENV_DEACTIVATE_BAT
 :::::::::::::::::::::::::::: END INLINE TEXT  ::::::::::::::::::::::::::::::
 
@@ -91,7 +117,7 @@ package:
   version: {{ version }}
 
 source:
-  url: file:///!ZIPDIR!/portableIcon-master.zip
+  url: file:///!ZIPDIR!/portableIcon-curl.zip
 
 build:
   number: {{ build }}
@@ -123,7 +149,9 @@ about:
       that the Icon Programming Language itself is in the public domain.
     - The Windows build includes support to make the tools and translated
       programs work in a manner similar to how they run on Unix and depends
-      on the included cygwin1.dll file that is LGPL licensed.
+      on the included cygwin1.dll file that is LGPL licensed; this is not
+      the cygwin1.dll directly from Cygwin/RedHat, but the patched version
+      from Kaz Kylheku at http://www.kylheku.com/cygnal/.
 
 extra:
   recipe-maintainers:
