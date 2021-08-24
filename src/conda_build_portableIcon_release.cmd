@@ -2,10 +2,12 @@
 @echo %ECHO_ON%
 pushd %~dps0
 set ZIPDIR=%CD:\=/%
-set CONDA_BUILD=0
-set RELEASE_TAG=v9.5.2_conda_%CONDA_BUILD%_rev4
+set BUILD_NUMBER=0
+set SOURCE_REVISION=rev4
+set RELEASE_TAG=v9.5.2_conda_%BUILD_NUMBER%_%SOURCE_REVISION%
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{sha}.zip
 set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
+set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/f40d42bb986b75f5be9c249662804e6dc8f19a9f.zip
 set RELEASE_URL=https://github.com/eschen42/portableIcon/releases/tag/%RELEASE_TAG%
 curl -L -o portableIcon-master.zip %RELEASE_ZIP% || (
   echo.zip download failed.
@@ -31,7 +33,25 @@ robocopy /e ^
   /XF robocopy.log ^
   /XF build_env_setup.bat ^
   > robocopy.log 2>&1
-@if %ERRORLEVEL% leq 7 (echo RoboCopy successful) else type robocopy log
+@if %ERRORLEVEL% leq 7 (
+  echo RoboCopy successful
+) else (
+  type robocopy log
+  goto bad_robocopy
+)
+mkdir  %PREFIX%\etc\conda\activate.d\
+mkdir  %PREFIX%\etc\conda\deactivate.d\
+if not exist %PREFIX%\etc\conda\activate.d\env_vars.bat (
+  copy %RECIPE_DIR%\env_activate.bat %PREFIX%\etc\conda\activate.d\env_vars.bat
+) else (
+  type %RECIPE_DIR%\env_activate.bat >> %PREFIX%\etc\conda\activate.d\env_vars.bat
+)
+if not exist %PREFIX%\etc\conda\deactivate.d\env_vars.bat (
+  copy %RECIPE_DIR%\env_deactivate.bat %PREFIX%\etc\conda\deactivate.d\env_vars.bat
+) else (
+  type %RECIPE_DIR%\env_deactivate.bat >> %PREFIX%\etc\conda\deactivate.d\env_vars.bat
+)
+
 @echo -------------------  bld.bat stdout end    ---------------------
 @if %ERRORLEVEL% leq 7 (
   echo.    Note well that conda-verify will report that .exe and .bat or
@@ -39,9 +59,24 @@ robocopy /e ^
   echo.     directory.  This is intentional.
   exit /b 0
 )
+:bad_robocopy
 @echo RoboCopy failed with exit code %ERRORLEVEL%
 exit /b %ERRORLEVEL%
 :BLD_BAT
+:::::::::::::::::::::::::::: END INLINE TEXT  ::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
+call :heredoc :ENV_ACTIVATE_BAT > recipe\env_activate.bat && goto :ENV_ACTIVATE_BAT || goto :HERE_ERROR
+set OLD_IPL=%IPL%
+set IPL=%CONDA_PREFIX%\Library\usr\bin\ipl
+:ENV_ACTIVATE_BAT
+:::::::::::::::::::::::::::: END INLINE TEXT  ::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
+call :heredoc :ENV_DEACTIVATE_BAT > recipe\env_deactivate.bat && goto :ENV_DEACTIVATE_BAT || goto :HERE_ERROR
+set IPL=%OLD_IPL%
+set OLD_IPL=
+:ENV_DEACTIVATE_BAT
 :::::::::::::::::::::::::::: END INLINE TEXT  ::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
@@ -49,7 +84,7 @@ call :heredoc :META_YAML > recipe\meta.yaml && goto :META_YAML || goto :HERE_ERR
 
 {% set name = "icon" %}
 {% set version = "9.5.2" %}
-{% set build = "!CONDA_BUILD!" %}
+{% set build = "!BUILD_NUMBER!" %}
 
 package:
   name: {{ name|lower }}
