@@ -1,4 +1,4 @@
-@setlocal&set ICNFILE=%~dpnsx1.icn
+@setlocal&set ICNFILE=%~dpns1_shebang.icn
 @copy %~dpnsx1 %ICNFILE% >NUL
 @set ICON=%~dps0icon.cmd&shift&shift
 @set ARGS=

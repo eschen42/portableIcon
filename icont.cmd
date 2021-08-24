@@ -41,9 +41,9 @@
   :: Return to working directory
   popd
 
-  :: echo %MYNTICONT% %ARGS% 1>&2
+  :: echo %MYNTICONT% %ARGS% %UCODES% 1>&2
   :: Pass all arguments to the translator
-  %MYNTICONT% %ARGS%
+  %MYNTICONT% %ARGS% %UCODES%
   if "%DASH_C%" == "1" exit /b %ERRORLEVEL%
   if "%DASH_E%" == "1" exit /b %ERRORLEVEL%
   if "%REQUEST_VERSION%" == "1" exit /b 0
@@ -85,6 +85,7 @@ set ARGS=
 set STANDALONE=
 set LAST_ARG=
 set ICODE=
+set UCODES=
 set ISRC=
 :: shift till last arg is %0
 set ARG=%0
@@ -96,11 +97,16 @@ if not defined ARG goto got_args
       if %ARG% == --standalone goto standalone
       if %ARG% == --add-exe goto add_exe
     )
-    set ARGS=%ARGS% %ARG%
-    set LAST_ARG=%0
     if not defined ISRC if exist %~dpns0.icn set ISRC="%~n0"
-    if not defined ISRC if exist %~dpns0.u1  set ISRC="%~n0"
-    if not defined ISRC if exist %~dpns0.u2  set ISRC="%~n0"
+    set UCODE=""
+    if "%~xs0" == ".u1"  set UCODE="%~nx0"
+    if "%~xs0" == ".u2"  set UCODE="%~nx0"
+    if not %UCODE% == "" (
+      set UCODES=%UCODES% %UCODE%
+    ) else (
+      set ARGS=%ARGS% %ARG%
+      set LAST_ARG=%0
+    )
     goto shift_args
   :add_exe
     set ADD_EXE=--add-exe
@@ -131,12 +137,13 @@ if not defined ARG goto got_args
   ::   but may be unexpected.
   if /i "%ICODEx%" == ".bat" set ICODEx=.exe
   @echo %ECHO_ON%
-  :: echo ARGS=%ARGS% 1>&2
-  :: echo ISRC=%ISRC% 1>&2
-  :: echo ICODE=%ICODE% 1>&2
-  :: echo ICODEx=%ICODEx% 1>&2
-  :: echo STANDALONE=%STANDALONE% 1>&2
-  :: echo ADD_EXE=%ADD_EXE% 1>&2
+  :: @echo ARGS=%ARGS% 1>&2
+  :: @echo UCODES=%UCODES% 1>&2
+  :: @echo ISRC=%ISRC% 1>&2
+  :: @echo ICODE=%ICODE% 1>&2
+  :: @echo ICODEx=%ICODEx% 1>&2
+  :: @echo STANDALONE=%STANDALONE% 1>&2
+  :: @echo ADD_EXE=%ADD_EXE% 1>&2
 goto :eof
 ::::::::::::::::::::::::::: :get_args subroutine ::::::::::::::::::::::::::::
 
