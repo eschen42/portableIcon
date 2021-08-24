@@ -88,5 +88,13 @@
   set EXIT_ERROR=1
 
 :usage
-  echo usage: icon [options for icont] [program.icn or -] [args for program]
+  echo.
+  echo.usage: icon [options for icont] [program.icn or -] [args for program]
+  echo.
+  echo.For info regarding this build, see
+  echo.  https://github.com/eschen42/portableIcon
+  echo.
+  echo.For info regarding the Icon programming language, see
+  echo.  https://www.cs.arizona.edu/icon
+  echo.
   endlocal&exit /b %EXIT_ERROR%

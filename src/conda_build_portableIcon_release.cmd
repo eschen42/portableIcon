@@ -6,8 +6,8 @@ set BUILD_NUMBER=0
 set SOURCE_REVISION=rev4
 set RELEASE_TAG=v9.5.2_conda_%BUILD_NUMBER%_%SOURCE_REVISION%
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{sha}.zip
+:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/f40d42bb986b75f5be9c249662804e6dc8f19a9f.zip
 set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
-set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/f40d42bb986b75f5be9c249662804e6dc8f19a9f.zip
 set RELEASE_URL=https://github.com/eschen42/portableIcon/releases/tag/%RELEASE_TAG%
 curl -L -o portableIcon-master.zip %RELEASE_ZIP% || (
   echo.zip download failed.
