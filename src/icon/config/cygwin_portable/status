@@ -1,14 +1,14 @@
 System configuration:
 
-	Cygwin on Windows 7
+	Cygnal on Windows 10
 
 Latest Icon version:
 
-	Version 9.5.1
+	Version 9.5.2
 
 Installer:
 
-	Carl Sturtivant
+	Art Eschenlauer
 	University of Minnesota
 
 Missing features:
@@ -17,18 +17,28 @@ Missing features:
 
 Known bugs:
 
-	Icon programs can only run from a Cygwin terminal.
+	Icon programs can only run from a Cygwin terminal or with the
+  CygNAL cygwin1.dll exactly matching the cygwin1.dll used to
+  build the binaries. See
+    http://www.kylheku.com/cygnal
+  and
+    https://github.com/eschen42/portableIcon
+  for more info.
 
-	Graphics programs can only run if Cygwin/X is already running.
+  By default, this configuration is not intended to support
+  graphics; configuration with graphics has not been tested.
 
-	The "options" and "tpp" tests fail due to Unix dependencies.
+	The "options" test fails because profiling needs a Unix timer.
+
+	The "kwds" test fails because it does not expect &progname
+  to end in .exe.
 
 Comments:
 
 	See the special Cygwin page in the documentation directory.
 
-	Tested on Cygwin-NT-6.1 with GCC 4.5.3.
+	Tested on Cygwin-NT-10.0 (v3.2.0) with GCC 10.2.0.
 
 Date:
 
-	June 5, 2013
+	August 25, 2021

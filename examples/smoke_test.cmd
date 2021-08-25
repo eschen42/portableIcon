@@ -57,11 +57,15 @@ call "%~dp0..\icont.cmd" -s -u -o "%~dp0Welt.exe" --standalone "%~dp0world.icn" 
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=two translation
   call :fail_msg icont.cmd -o Welt.exe world.icn failed
+  if exist Welt.exe del Welt.exe
+  if exist Welt.bat del Welt.bat
   goto :farewell
 )
 @if not exist "%~dp0Welt.bat" (
   set TEST_NAME=two no icode
   call :fail_msg icont -o did not produce expected icode .bat file
+  if exist Welt.exe del Welt.exe
+  if exist Welt.bat del Welt.bat
   goto :farewell
 )
 if not exist "%~dp0cygwin1.dll" echo cygwin1.dll required for standalone execution was not found
@@ -73,6 +77,8 @@ call "%~dp0Welt.bat" one two
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=two execution
   call :fail_msg call Welt.bat failed
+  if exist Welt.exe del Welt.exe
+  if exist Welt.bat del Welt.bat
   goto :farewell
 )
 if exist "%~dp0world.exe" del "%~dp0world.exe"
@@ -88,6 +94,7 @@ call "%~dp0..\icont.cmd" -s -u --add-exe "%~dp0world.icn" 2>&1 >NUL
 if exist "%~dp0cygwin1.dll" del "%~dp0cygwin1.dll"
 if exist "%~dp0nticonx.exe" del "%~dp0nticonx.exe"
 if exist "%~dp0Welt.bat" del "%~dp0Welt.bat"
+if exist "%~dp0Welt.exe" del "%~dp0Welt.exe"
 if exist "%~dp0world.icn" del "%~dp0world.icn"
 @echo.
 @echo -------  Test three - Translate from within a script and run [3]  ---------
@@ -346,6 +353,10 @@ rename "%~dp0luna.u2" moon.u2
 @ if %ERRORLEVEL% neq 0 (
   set TEST_NAME=ten mundo translation
   call :fail_msg icont.cmd -o world.exe mundo.icn moon.u1 moon.u2 failed
+  if exist moon.u1 del moon.u1
+  if exist moon.u2 del moon.u2
+  if exist luna.u1 del luna.u1
+  if exist luna.u2 del luna.u2
   goto :farewell
 )
 
@@ -359,6 +370,10 @@ call "%~dp0world.exe" ten cent store
 
 del "%~dp0world.bat"
 del "%~dp0world.exe"
+if exist moon.u1 del moon.u1
+if exist moon.u2 del moon.u2
+if exist luna.u1 del luna.u1
+if exist luna.u2 del luna.u2
 
 goto farewell
 
