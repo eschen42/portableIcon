@@ -63,19 +63,21 @@ popd
 echo %ECHO_ON%
 
 :: You can un-comment out the next echo line if you run your programs by
-::   double-cliking and don't want the window to close immedately
+::   double-clicking and don't want the window to close immedately
 ::   after the program finishes.
 :: echo pause>> %SMUDGE%
 
 move /y "%ARG1%%ARG1x%" "%ARG1%.%SMUDGE%" >NUL
 copy /y %ARG1dir%%SMUDGE% "%ARG1long%.bat" >NUL
 type "%ARG1%.%SMUDGE%" >> "%ARG1long%.bat"
+:: @echo on
 if "%ARG1X%" == ".exe" (
-  del  %ARG1DIR%%SMUDGE% %ARG1%.%SMUDGE%
+  del  %ARG1DIR%%SMUDGE% "%ARG1%.%SMUDGE%"
 ) else (
   del  %ARG1DIR%%SMUDGE%
-  move %ARG1%.%SMUDGE% %ARG1%%ARG1x% >NUL
+  move "%ARG1%.%SMUDGE%" "%ARG1%%ARG1x%" >NUL
 )
+@echo %ECHO_ON%
 if not defined ARG2 exit/b 0
 
 set STANDALONE=0
