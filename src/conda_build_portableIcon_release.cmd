@@ -7,8 +7,8 @@ set SOURCE_REVISION=rev5
 set RELEASE_TAG=v9.5.2_conda_%BUILD_NUMBER%_%SOURCE_REVISION%
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{git_sha}.zip
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/heads/{branch}.zip
-set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/heads/icon_v9.5.2a.zip
-:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
+:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/heads/icon_v9.5.2a.zip
+set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
 set RELEASE_URL=https://github.com/eschen42/portableIcon/releases/tag/%RELEASE_TAG%
 if exist recipe rmdir /s/q recipe
 mkdir recipe
