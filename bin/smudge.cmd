@@ -53,7 +53,7 @@ if exist %IXBIN% set ICONX=%IXBIN%&goto :have_iconx
 set ICONX=iconx
 
 :have_iconx
-%ICONX% %~dpnxs0 %*
+%ICONX% "%~dpnxs0" %*
 exit /b %ERRORLEVEL%
 :: unix stub follows
 
@@ -67,9 +67,9 @@ echo %ECHO_ON%
 ::   after the program finishes.
 :: echo pause>> %SMUDGE%
 
-move /y %ARG1%%ARG1x% %ARG1%.%SMUDGE% >NUL
+move /y "%ARG1%%ARG1x%" "%ARG1%.%SMUDGE%" >NUL
 copy /y %ARG1dir%%SMUDGE% "%ARG1long%.bat" >NUL
-type %ARG1%.%SMUDGE% >> "%ARG1long%.bat"
+type "%ARG1%.%SMUDGE%" >> "%ARG1long%.bat"
 if "%ARG1X%" == ".exe" (
   del  %ARG1DIR%%SMUDGE% %ARG1%.%SMUDGE%
 ) else (

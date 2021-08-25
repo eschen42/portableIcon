@@ -62,10 +62,8 @@
     set ICODEx=.exe
   )
   :: smudge if icode.exe exists
-  :: echo "%%ICODE:~1,-1%%%%ICODEx%%" is %ICODE:~1,-1%%ICODEx%
   if not defined ICONT_NOSMUDGE if not exist "%ICODE:~1,-1%%ICODEx%" echo Does the directory for "%ICODE:~1,-1%%ICODEx%" exist?
   if not defined ICONT_NOSMUDGE if exist "%ICODE:~1,-1%%ICODEx%" (
-    :: echo call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%%ICODEx%" %STANDALONE% %ADD_EXE% 1>&2
     call "%BINDIR%\smudge.cmd" "%ICODE:~1,-1%%ICODEx%" %STANDALONE% %ADD_EXE%
   )
   :: Produce result returned by translator
@@ -97,7 +95,7 @@ if not defined ARG goto got_args
       if %ARG% == --standalone goto standalone
       if %ARG% == --add-exe goto add_exe
     )
-    if not defined ISRC if exist %~dpns0.icn set ISRC="%~n0"
+    if not defined ISRC if exist "%~dpns0.icn" set ISRC="%~n0"
     set UCODE=""
     if "%~xs0" == ".u1"  set UCODE="%~nx0"
     if "%~xs0" == ".u2"  set UCODE="%~nx0"

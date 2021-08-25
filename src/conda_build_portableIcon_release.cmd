@@ -3,29 +3,13 @@
 pushd %~dps0
 set ZIPDIR=%CD:\=/%
 set BUILD_NUMBER=0
-set SOURCE_REVISION=rev4
+set SOURCE_REVISION=rev5
 set RELEASE_TAG=v9.5.2_conda_%BUILD_NUMBER%_%SOURCE_REVISION%
-:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{sha}.zip
-:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/f40d42bb986b75f5be9c249662804e6dc8f19a9f.zip
-set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
+:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{git_sha}.zip
+:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/heads/{branch}.zip
+set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/heads/icon_v9.5.2a.zip
+:: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/tags/%RELEASE_TAG%.zip
 set RELEASE_URL=https://github.com/eschen42/portableIcon/releases/tag/%RELEASE_TAG%
-if exist portableIcon-curl.zip (
-  echo deleting previously existing portableIcon-curl.zip
-  del portableIcon-curl.zip
-  :: sleep 1 second
-  ping -n 2 127.0.0.1 >NUL
-)
-if exist portableIcon-curl.zip (
-  echo failed to delete existing portableIcon-curl.zip
-  popd
-  exit /b 1
-)
-curl -L -o portableIcon-curl.zip %RELEASE_ZIP% || (
-  echo.zip download failed.
-  echo.  If this is surprising, be sure that you have installed curl.
-  popd
-  exit /b 1
-)
 if exist recipe rmdir /s/q recipe
 mkdir recipe
 
@@ -117,7 +101,7 @@ package:
   version: {{ version }}
 
 source:
-  url: file:///!ZIPDIR!/portableIcon-curl.zip
+  url: !RELEASE_ZIP!
 
 build:
   number: {{ build }}

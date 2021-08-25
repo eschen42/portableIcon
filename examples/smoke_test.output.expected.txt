@@ -261,7 +261,7 @@ pipes
 system function
 Icon Version 9.5.21b, July 21, 2021
 
- 9d. Invoke the icont.cmd [not icono.cmd] script with spaces in file name
+ 9d. Invoke the icont.cmd [not icon.cmd] script with spaces in file name
 There are 4 args
 nine
 via icont.cmd (rather than icon.cmd)

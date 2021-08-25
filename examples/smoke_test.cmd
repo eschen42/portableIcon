@@ -304,7 +304,7 @@ type "%~dp0world.icn" | %~dps0..\icon.cmd - nine "with Icon source from stdin" h
   goto :farewell
 )
 @echo.
-@echo. 9d. Invoke the icont.cmd [not icono.cmd] script with spaces in file name
+@echo. 9d. Invoke the icont.cmd [not icon.cmd] script with spaces in file name
 copy "%~dp0world.icn" "%~dp0meine Welt.icn" >NUL
 :: double-ampersand means execute second command only if first command returns zero EXITCODE
 call %~dps0..\icont.cmd -v0 "%~dps0meine Welt.icn"&& call "%~dps0meine Welt.bat" nine "via icont.cmd (rather than icon.cmd)" hello world
