@@ -44,10 +44,11 @@
   :: echo %MYNTICONT% %ARGS% %UCODES% 1>&2
   :: Pass all arguments to the translator
   %MYNTICONT% %ARGS% %UCODES%
-  if "%DASH_C%" == "1" exit /b %ERRORLEVEL%
-  if "%DASH_E%" == "1" exit /b %ERRORLEVEL%
-  if "%REQUEST_VERSION%" == "1" exit /b 0
   set MY_RESULT=%ERRORLEVEL%
+  if "%DASH_C%" == "1" exit /b %MY_RESULT%
+  if "%DASH_E%" == "1" exit /b %MY_RESULT%
+  if "%REQUEST_VERSION%" == "1" exit /b 0
+  if not %MY_RESULT% == 0 exit /b %MY_RESULT%
 
 :shift_loop
     shift
