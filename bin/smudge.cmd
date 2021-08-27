@@ -34,8 +34,9 @@ pushd %~dps0
 :::::::::::::::::::::::::: BEGIN INLINE TEXT  ::::::::::::::::::::::::::::::
 call :heredoc :HERE_END > %ARG1dir%%SMUDGE% & goto :HERE_END || goto :HERE_ERROR
 @echo off
-set IXBIN=!ICONX!
 setlocal
+set PWD=%CD%
+set IXBIN=!ICONX!
 :: the unix seach order is ICONX, IXLCL, IXBIN, ./nticonx
 ::   ICONX can be defined to point to the executable and bypass the logic
 ::   IXLCL executes a local copy of nticonx, i.e, nticonx in same dir as icode
@@ -53,7 +54,7 @@ if exist %IXBIN% set ICONX=%IXBIN%&goto :have_iconx
 set ICONX=iconx
 
 :have_iconx
-%ICONX% "%~dpnxs0" %*
+%ICONX% "%~dpnx0" %*
 exit /b %ERRORLEVEL%
 :: unix stub follows
 
