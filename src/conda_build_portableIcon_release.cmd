@@ -2,8 +2,8 @@
 @echo %ECHO_ON%
 pushd %~dps0
 set ZIPDIR=%CD:\=/%
-set BUILD_NUMBER=0
-set SOURCE_REVISION=rev6
+set BUILD_NUMBER=1
+set SOURCE_REVISION=rev7
 set RELEASE_TAG=v9.5.2_conda_%BUILD_NUMBER%_%SOURCE_REVISION%
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/{git_sha}.zip
 :: set RELEASE_ZIP=https://github.com/eschen42/portableIcon/archive/refs/heads/{branch}.zip

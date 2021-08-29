@@ -231,13 +231,15 @@ You can find !NX0! at !DPNX0!
 
 Environmental variables recognized by !NX0!
 
-Name         Default    Description
---------     -------    -----------------------
-IPATH        none       search path for link directives
-LPATH        none       search path for $include directives
+Name     Description                            Effective Default
+-----    -----------------------------------    -----------------
+IPATH    search path for link directives        . %IPL%\procs
+LPATH    search path for $include directives    . %IPL%\incl
 
 Search paths are blank-separated lists of directories.
-The current directory is searched before a search path is used.
+The current directory is always searched before a search path is used.
+When the environment variable for the search path is undefined,
+  the corresponding subdirectory of the ipl directory is also searched.
 -------------------------------------------------------------------------------
 
 :post_usage
