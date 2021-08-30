@@ -231,15 +231,18 @@ You can find !NX0! at !DPNX0!
 
 Environmental variables recognized by !NX0!
 
-Name     Description                            Effective Default
------    -----------------------------------    -----------------
-IPATH    search path for link directives        . %IPL%\procs
-LPATH    search path for $include directives    . %IPL%\incl
+Name     Description                             Effective Default
+-----    ------------------------------------    -----------------
+IPATH    search path for link directives         . %IPL%\procs
+LPATH    search path for $include directives     . %IPL%\incl
+IPL      root of the Icon Programming Library    not defined
 
 Search paths are blank-separated lists of directories.
 The current directory is always searched before a search path is used.
 When the environment variable for the search path is undefined,
   the corresponding subdirectory of the ipl directory is also searched.
+IPL is a "convenience variable" that is automatically set (only) by
+  `conda activate icon` on Windows.
 -------------------------------------------------------------------------------
 
 :post_usage

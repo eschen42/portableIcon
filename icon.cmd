@@ -19,9 +19,9 @@
 
   :: shift till last arg is %1
 :more_args
-    if /I ""%ARG%"" == ""--help"" goto usage
-    if    ""%ARG%"" == ""/?""     goto usage
-    if /I ""%ARG%"" == ""-H""     goto usage
+    if /I %ARG% == "--help" goto usage
+    if    %ARG% == "/?"     goto usage
+    if /I %ARG% == "-H"     goto usage
     set ARG2=%2
     set JUST_DEFINED=
     if defined ICN_FILE goto next_arg
@@ -128,6 +128,16 @@
   echo.
   echo.For info regarding the Icon programming language, see
   echo.  https://www.cs.arizona.edu/icon
+  echo.
+  echo.For numerous examples, see:
+  echo.  https://rosettacode.org/wiki/Category:Icon
+  echo.  https://www2.cs.arizona.edu/icon/library/ipl.htm
+  echo.
+  echo.For help with icont, the Icon translator:
+  echo.  icont --help
+  echo.
+  echo.For help with iconx, the Icon interpreter:
+  echo.  iconx --help
   echo.
   endlocal&exit /b %EXIT_ERROR%
 
