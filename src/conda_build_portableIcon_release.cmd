@@ -71,7 +71,8 @@ call :heredoc :ENV_ACTIVATE_BAT > recipe\env_activate.bat && goto :ENV_ACTIVATE_
 @echo.For info regarding this build of Icon for Microsoft Windows, please see
 @echo.  https://github.com/eschen42/portableIcon
 @echo.
-@echo.The Icon Programing Library is at %IPL%
+@set IPL
+@echo.The Icon Programing Library is at %%IPL%%
 @echo.
 @echo.For offline help, try these:
 @echo.  icont --help
