@@ -8,6 +8,11 @@ Use file in this directory as described below to build:
 - `..\icont.exe`
 - `..\iconx.exe`
 
+## Known Bugs
+
+- `nticont.exe` and `nticonx.exe` are not compatible with files on Google Drive.
+- The convenience scripts do not take into account the fact that the spaces in `My drive` and `Shared drives` are preserved even when batch files call for spaceless names.
+
 ## About the `icon=9.5.2` package in the `eschen42` conda channel
 
 The `icon-9.5.2` package in the `eschen42` conda channel was built from
