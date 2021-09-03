@@ -312,8 +312,12 @@ See test 8 in `smoke_test.cmd`.
 
 ## Bugs
 
-- I have not found a way to express an IPATH or LPATH that has
-  directories that themselves include spaces, except by using
+- This build does not support translating Icon programs that are on a different
+  drive letter from portableIcon or at a UNC path or on Google Drive; the work-
+  around is to copy the program to a local drive.  However, when programs
+  themselves run, they are able to access files on other drive letters.
+- I have not found a way to express an IPATH or LPATH that has directories that
+  themselves include spaces, except by using
   ["8.3" filenames](
   https://en.wikipedia.org/wiki/8.3_filename#Working_with_short_filenames_in_a_command_prompt).
 - `bin\nticont.exe` and `bin\nticonx.exe` must be invoked with a relative or
